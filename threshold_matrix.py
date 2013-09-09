@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python2.7
 # -*- coding: utf-8 -*-
 
 def get_threshold_matrix(filename, threshold_value):
