@@ -33,8 +33,8 @@ function b = calcBOLD(simfile)
   %% plot sample time series     
   
   % specify plotting interval:
-  minval = 325000;
-  range = 500;
+  minval = 325;
+  range = 50;
   h = figure;
   plot(timeseries(minval:minval+range,:));
   xlim([0 range])
@@ -57,7 +57,8 @@ function b = calcBOLD(simfile)
 	
 	% important: specify here to which time interval the simulated 
 	% time series corresponds:
-  T = 700.0; % in [s]
+  %T = 700.0; % in [s]
+  T = nt/1000;
   
   for roi = 1:N 
     boldsignal{roi} = BOLD(T,timeseries(:,roi));
@@ -96,12 +97,14 @@ function b = calcBOLD(simfile)
 
   %% Downsampling: select one point every 'ds' ms to match fmri resolution:
 
-  ds=2.500; 
+  ds=2; 
   down_bds=BOLD_filt(1:ds/dtt:end,:);
-  lenBold = size(down_bds,1);
+  lenBold = size(down_bds,1)
   
   %% Cutting first and last seconds (distorted from filtering) and keep the middle:
-  nFramesToKeep = 260;
+  nFramesToKeep = 10;
+  minFrame = floor((lenBold-nFramesToKeep)/2)
+  maxFrame = floor((lenBold+nFramesToKeep)/2)-1
   bds = down_bds(floor((lenBold-nFramesToKeep)/2):floor((lenBold+nFramesToKeep)/2)-1,:);
   size(bds)  
   save([simfile(1:end-4),'_bds.mat'],'bds')
@@ -128,5 +131,3 @@ function b = calcBOLD(simfile)
   system(sprintf('ps2pdf -dEPSCrop %s.eps %s.pdf',filo,filo));
   
 end
-
-
