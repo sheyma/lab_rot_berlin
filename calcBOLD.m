@@ -58,7 +58,7 @@ function b = calcBOLD(simfile)
 	% important: specify here to which time interval the simulated 
 	% time series corresponds:
   %T = 700.0; % in [s]
-  T = nt/1000;
+  T = nt/10000;
   
   for roi = 1:N 
     boldsignal{roi} = BOLD(T,timeseries(:,roi));

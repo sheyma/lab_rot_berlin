@@ -11,11 +11,12 @@ global itaus itauf itauo ialpha Eo dt
 
 ch_int = 0;         % 0: Euler, 1: ode45
 
-dt  = 0.001;        % (s)
+dt  = 0.0001;        % (s)
 t0  = (0:dt:T)';
 n_t = length(t0);
 
-t_min = 20;  %%% to discard first 20 sec of the simulaton 
+t_min = 0.1;  %%% to discard first 0.1 sec of the simulaton 
+%t_min = 20;  %%% to discard first 20 sec of the simulaton 
 n_min = round(t_min/dt);
 
 r_max = max(r);
@@ -66,7 +67,7 @@ else
 
 end
 
-t  = t(n_min:end); %%% discard first n_min points (20000)
+t  = t(n_min:end); %%% discard first n_min points (1000)
 s  = x(n_min:end,1);
 fi = x(n_min:end,2);
 v  = x(n_min:end,3);

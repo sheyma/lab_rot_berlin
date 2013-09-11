@@ -104,7 +104,8 @@ print 'maximum delay', T.max(), '=> smallest largest integer:', math.ceil(T.max(
 
 max_tau = math.ceil(T.max())
 
-
+if max_tau < 5.:
+  max_tau = 5.
 
 """ coupling term """
 
