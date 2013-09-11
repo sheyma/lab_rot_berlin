@@ -105,7 +105,7 @@ function b = calcBOLD(simfile)
   nFramesToKeep = 10;
   minFrame = floor((lenBold-nFramesToKeep)/2)
   maxFrame = floor((lenBold+nFramesToKeep)/2)-1
-  bds = down_bds(floor((lenBold-nFramesToKeep)/2):floor((lenBold+nFramesToKeep)/2)-1,:);
+  bds = down_bds(minFrame:maxFrame,:);
   size(bds)  
   save([simfile(1:end-4),'_bds.mat'],'bds')
 
