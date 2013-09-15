@@ -1,0 +1,258 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{listings}
+
+
+\begin{document}
+\title{LAB ROTATION 02 \\ 1st Week Assignment }
+\date{11.09.2013}
+\author{\c{S}eyma Bayrak, Advisor: Philipp H\"{o}vel}
+\maketitle
+
+\section{Nonlinear Dynamics of Neural Networks}
+\subsection{Simple FitzHugh-Nagumo Model}
+
+\begin{equation}
+ \varepsilon \dot{x} = x- \frac{x^3}{3}-y 
+\end{equation}
+
+\begin{equation}
+ \dot{y}=x+a 
+\end{equation}
+
+\textit{x}: activator, reproducing behavior of voltage during the course of a spike \newline
+\textit{y}: inhibitor, inhibiting production of x \newline
+\textit{a}: bifurcation parameter - threshold parameter: determines whether the system excitable ($a>1$) or exhibits periodic firing ($a<1$) \newline
+
+\textbf{Bifurcation Analysis and Nullclines / Fixed Points}: 
+\begin{itemize}
+ \item $ \dot{x}=\dot{y}=0, \;\;\; x-nulcline:\;\; x- \frac{x^3}{3}-y =0, \;\;\; y-nullcline: \;\; x+a =0 $
+\item \textit{equilibrium (fixed) point }:$ (x_A,y_A)=(-a,-a+\frac{a^3}{3}) $
+\item \textit{Jacobian Matrix}, anaylses the stability of fix points with eigenvalues
+\item $\lambda_{1,2}=\frac{1-a^2\pm \sqrt{(1-a^2)^2-4\varepsilon}}{2\varepsilon}$, $\varepsilon=0.005$, for $|a|>1$ the fixed point is stable, for $|a|<1$ unstable
+\end{itemize}
+Fixed point $(x_A,y_A)$: Separating excitable and inhibitory region. \newline
+Stability : resting towards $(x_A,y_A)$ \newline
+Change of stability to instability: periodic oscillations
+
+\subsection{Related Figures}
+
+\begin{center}
+\includegraphics[width=\textwidth]{nullclines_a_101_epsil_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 1, Simple FHN model, x and y plots as time series. $a=1.01$, and $\varepsilon=0.005$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=50mm] {fixpo_a_101_epsil_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 2, Simple FHN model, x versus y in state space $a=1.01$, and $\varepsilon=0.005$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=30mm]{nullclines_a_097_epsil_002.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 3, Simple FHN model, x and y plots as time series. $a=0.97$, and $\varepsilon=0.02$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=50mm]{fixpo_a_097_epsil_002.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 4, Simple FHN model, x and y plots as time series. $a=0.97$, and $\varepsilon=0.02$ 
+\end{footnotesize}
+\end{center}
+
+
+
+
+\subsection{Extended FitzHugh-Nagumo Model}
+\begin{equation}
+ \varepsilon \dot{x} = x- \frac{x^3}{3}-y 
+\end{equation}
+\begin{equation}
+ \dot{y}=x+a -\gamma y
+\end{equation}
+Extended FHN model : now $\dot y$ depends an additional linear inhibitory term $\gamma y$
+\textbf{Bifurcation Analysis and Nullclines / Fixed Points}: 
+\begin{itemize}
+ \item $ \dot{x}=\dot{y}=0, \;\;\; x-nulcline:\;\; x- \frac{x^3}{3}-y =0, \;\;\; y-nullcline: \;\; x+a-\gamma y =0 $
+\item \textit{equilibrium (fixed) point }: $ @fsolve (x(x-\frac{1}{\gamma})-\frac{x^3}{3}-\frac{a}{\gamma}) \longrightarrow x(a,\gamma)=x_f$
+\item \textit{Jacobian matrix eigenvalues} : $\lambda_{1,2}=\frac{(1-x_f^2-\gamma \varepsilon)\pm \sqrt{(1-x_f^2-\gamma \varepsilon)^2 - 4 (\gamma \varepsilon x_f^2 + \varepsilon - \gamma\varepsilon)}}{2}$
+\end{itemize}
+Bifurcation point depends now not only $a$ but also $\gamma$. \newline
+Fixed point can be now \textit{stable, unstable, saddle.} \newline
+Let us make determinant of Jacobian matrix positive to eliminate saddle points: \newline
+$det(J)=\varepsilon(\gamma (x_f^2-1)+1)>0$, then we should choose $0<\gamma<1$ 
+
+\subsection{Related Figures}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=30mm]{ext_nullclines_a_130_epsil_04_gamma_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 5, Extended FHN model, x and y plots as time series. $a=1.30$, $\gamma=0.005$ and $\varepsilon=0.4$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=50mm]{ext_fixpo_a_130_epsil_04_gamma_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 6, Extended FHN model, x and y in state space. $a=1.30$, $\gamma=0.005$ and $\varepsilon=0.4$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=30mm]{ext_nullclines_a_095_epsil_04_gamma0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 7, Extended FHN model, x and y plots as time series. $a=0.95$, $\gamma=0.005$ and $\varepsilon=0.4$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=50mm]{ext_fixpo_a_095_epsil_04_gamma0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 8, Extended FHN model, x and y in state space. $a=0.95$, $\gamma=0.005$ and $\varepsilon=0.4$ 
+\end{footnotesize}
+\end{center}
+
+\section{Execution of Python and MATLAB Scripts}
+
+\begin{itemize}
+\item Create a matrix with threshold: 
+ \begin{lstlisting}
+ python		threshold_matrix.py  <arg1>  <arg2>
+ python		threshold_matrix.py   A.txt   0.5
+ \end{lstlisting}
+that means the matrix $A$ is converted with threshold value $0.5$ into another matrix. The elements of new matrix are $[0,1]$, the values below the given threshold are 0, otherwise 1. The new matrix is saved as $A\_r0.5.dat$ 
+
+\item Simulation of neural activity: time evolution of activator and inhibitor
+ \begin{lstlisting}
+ python	fhn_time_delays.py  <arg1> <arg2> <arg3> <arg4>
+ \end{lstlisting}
+$<arg1>$ : $f_{ij}$, functional connectivity matrix \newline
+$<arg2>$ : $d_{ij}$, matrix;  distances between nodes in brain \newline
+$<arg3>$ : $c$, coupling constant \newline
+$<arg4>$ : $D$, noise strength 
+
+\item $[VUK13]$ - some theoretical approach to the command-line above:
+ 
+\begin{equation}
+ \dot{u}_i=g(u_i,v_i)-c \sum_{j=1}^N  f_{ij} u_j(t-\Delta t_{ij})+n_u
+\end{equation}
+\begin{equation}
+ \dot{v}_i=h(u_i,v_i)+n_v
+\end{equation}
+where $c$ is coupling strength, $f_{ij}$ is the connectivity matrix, $\Delta t_{ij}$ is time delay due to finite signal propagation velocity between nodes, $n_u$ is the noise factor. $\Delta t_{ij}$ is calculated as $\Delta t_{ij}=\frac{d_{ij}}{\nu}$, distance matrix divided by velocity and noise factor is includes the noise strength $D$. 
+
+The functions $g$ and $v$ are modeleds very similar to FitzHugh-Nagumo model introduced before:
+\begin{equation}
+ \dot{u}=g(u,v)=\tau(v+\gamma u - \frac{u^3}{3})
+\end{equation}
+\begin{equation}
+ \dot{v}=h(u,v)=-\frac{1}{\tau}(u- \alpha +bv-I)
+\end{equation}
+
+\item The outcome of the $fhn\_time\_delays.py$:
+
+\[
+simfile=
+\left[ {\begin{array}{cccccccccc }
+0  &  u_{11} & v_{11} & u_{21} & v_{21} & . &. & . & u_{N1} & v_{N1} \\
+dt &  u_{12} & v_{12} & u_{22} & v_{22} & . &. & . & u_{N2} & v_{N2} \\
+2dt &  u_{13} & v_{13} & u_{23} & v_{23} & . &. & . & u_{N2} & v_{N3} \\
+3dt &  . & . & . & . & . &. & . & u_{N3} & v_{N3} \\
+4dt &  . & . & . & . & . &. & . & u_{N4} & v_{N4} \\
+. &  . & . & . & . & . &. & . & . & . \\
+t_{max} &  . & . & . & . & . &. & . & u_{NN} & v_{NN}
+\end{array} } \right]
+\]
+
+\item Observe attractors's activity as time series
+ 
+\begin{lstlisting}
+ MATLAB >>   calcBOLD.m >>   calcBOLD('simfile')
+\end{lstlisting}
+
+The program $calcBOLD.m$ firstly eliminates all the $u_i$ time series from the input i.e. $simfile$ and plots the total time versus all the $u_i$ series. 
+\begin{center}
+\includegraphics[width=50mm, height=50mm]{u_series.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\end{center}
+
+\begin{center}
+\begin{footnotesize}
+ Figure 9, Extended FHN model, x and y in state space. Threshold applied to $f_{ij}$ matrix is $r=0.5$, coupling constant $c=0$, noise strength $D=0.05$ and velocity of signal propagation $v=70 m/s$.
+\end{footnotesize}
+\end{center}
+
+\item Simulated Bold activity with Baloon-Windkessel model
+
+The resulting time series of the neural activity $u$ is used to infer the BOLD signal observed in fMRI data via Baloon-Windkessel model. The puspose of the project is to be able observe how well the simulated BOLD signal correlates with the emprical fMRI signal. Here is an example of how the simulated BOLD signal might look like. 
+
+\begin{center}
+\includegraphics[width=\textwidth, ]{bold_ex.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 10, correlation matrix of sBOLD, coupling strength $c=0$ and noise strength $D=0.01$, $v=70 m/s$. 
+\end{footnotesize}
+\end{center}
+
+ 
+\end{itemize}
+
+\section{How the FHN model is modified in those papers: $[VUK13]$, $[GHO08]$, $[GHO08a]$}
+The FHN model used in $[VUK13]$ has been introduced in equation 7 and 8, let us compare them with equations 1 and 2.
+
+\begin{equation*}
+ \dot{x} = \frac{1}{ \varepsilon}(x- \frac{x^3}{3}-y) \;\;\;\;\;\,\,\,  \dot{y}=x+a -\gamma y  \;\;\;\;\;   
+\end{equation*}
+\begin{equation*}
+ \dot{u}=\tau(\gamma u  - \frac{u^3}{3}+v)
+ \;\;\;\;\;\,\,\,
+ \dot{v}=-\frac{1}{\tau}(u- \alpha +bv-I)
+\end{equation*}
+
+
+\begin{itemize}
+ \item Instead of $\frac{1}{\varepsilon}$ in equation 3, a time constant $\tau$ is introduced in eqaution 7. Beside of changed parameters, the most important difference is that, the inhibitor $\dot{v}$ depend in equation 8 on a negative attractor $-u$ and there occurs also one additional term called $I$; the external stimulus, but that is assumed to be $0$ in papers.
+\end{itemize}
+
+\subsection{Related Figures}
+
+\begin{center}
+\includegraphics[width=120mm, height=40mm]{vuk_nullcl_alpha_085_tau_125_gamma_10_b_02.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\end{center}
+\begin{center}
+ \begin{footnotesize}
+ Figure 11, $\alpha=0.85$, $\gamma=1.0$, $b=0.2$, $\tau=1.25$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=120mm, height=60mm]{vuk_fixpo_alpha_085_tau_125_gamma_10_b_02.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\end{center}
+
+\begin{center}
+ \begin{footnotesize}
+ Figure 12, $\alpha=0.85$, $\gamma=1.0$, $b=0.2$, $\tau=1.25$
+\end{footnotesize}
+\end{center}
+
+
+
+\end{document}
+
