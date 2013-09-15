@@ -165,7 +165,7 @@ neuronetz.ddeN.hist_from_arrays(dic)
 
 """ Start simulation with t = [0,tmax] """
 
-tmax = 700
+tmax = 1000
 neuronetz.run(tmax)
 
 

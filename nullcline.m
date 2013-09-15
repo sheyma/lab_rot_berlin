@@ -1,8 +1,8 @@
 close all;
 
 % simple FitzHugh-Naguma Model - nullcline analysis
-a=1.01;
-eps=0.005;
+a=0.97;
+eps=0.02;
 
 xlimit=2.5;
 ylimit=1;
@@ -16,7 +16,7 @@ lambda(2)= (1-a^2 - sqrt( (1-a^2)^2-4*eps) )/(2*eps);
 
 dt=0.002;
 t0=0;
-tf=10;
+tf=50;
 t=t0:dt:tf;
 N=length(t);
 
@@ -25,39 +25,44 @@ yt=zeros(1,N);
 xt(1)=-1;
 yt(1)=-.65;
 
-for i=1:N-1
-   xt(i+1)=xt(i)+(xt(i)-xt(i)^3/3-yt(i))*dt/eps;
-   yt(i+1)=yt(i)+(xt(i)+a)*dt;
-end
-
-figure(1)
-subplot(1,2,1)
-plot(t,xt,'k','LineWidth',1.5)
-xlabel('time','FontSize',15)
-ylabel('x','FontSize',15)
-subplot(1,2,2)
-plot(t,yt,'k','LineWidth',1.5)
-xlabel('time','FontSize',15)
-ylabel('y','FontSize',15)
-
-figure(2)
-hold on
-axis([-xlimit xlimit -ylimit ylimit])
-plot(x,y, 'r', 'LineWidth', 2.5)
-plot(xx,yy, 'b', 'LineWidth', 2.5)
-if lambda < 0
-plot(-a, -a+a^3/3, 'ok', 'LineWidth',4)
-title('Fixed point is stable', 'FontSize',20)
-else
-    plot(-a, -a+a^3/3, 'sk', 'LineWidth',2)
-    title('Fixed point is unstable', 'FontSize',20)
-end
-hold off
+% for i=1:N-1
+%    xt(i+1)=xt(i)+(xt(i)-xt(i)^3/3-yt(i))*dt/eps;
+%    yt(i+1)=yt(i)+(xt(i)+a)*dt;
+% end
+% 
+% figure(1)
+% subplot(1,2,1)
+% set(gca,'FontSize',25);
+% plot(t,xt,'k','LineWidth',1.5)
+% xlabel('time','FontSize',25)
+% ylabel('x','FontSize',25)
+% subplot(1,2,2)
+% set(gca,'FontSize',25);
+% plot(t,yt,'k','LineWidth',1.5)
+% xlabel('time','FontSize',25)
+% ylabel('y','FontSize',25)
+% 
+% figure(2)
+% hold on
+% axis([-xlimit xlimit -ylimit ylimit])
+% set(gca,'FontSize',25);
+% plot(x,y, 'r', 'LineWidth', 2.5)
+% plot(xx,yy, 'b', 'LineWidth', 2.5)
+% xlabel('x','FontSize',20)
+% ylabel('y','FontSize',20)
+% if lambda < 0
+% plot(-a, -a+a^3/3, 'ok', 'LineWidth',4)
+% title('Fixed point is stable', 'FontSize',20)
+% else
+%     plot(-a, -a+a^3/3, 'ks', 'LineWidth',3)
+%     title('Fixed point is unstable', 'FontSize',20)
+% end
+% hold off
 
 % extended FitzHugh-Nagumo Model
 
-a1=0.97;
-eps1=0.005;
+a1=0.95;
+eps1=0.4;
 gamma=0.005;
 
 x_limit=2.5;
@@ -79,12 +84,14 @@ end
 figure(3)
 subplot(1,2,1)
 plot(t,xT,'k','LineWidth',1.5)
-xlabel('time','FontSize',15)
-ylabel('x','FontSize',15)
+set(gca,'FontSize',25);
+xlabel('time','FontSize',25)
+ylabel('x','FontSize',25)
 subplot(1,2,2)
+set(gca,'FontSize',25);
 plot(t,yT,'k','LineWidth',1.5)
-xlabel('time','FontSize',15)
-ylabel('y','FontSize',15)
+xlabel('time','FontSize',25)
+ylabel('y','FontSize',25)
 
 % intersection of nullclines
 b0=-2;
@@ -97,6 +104,7 @@ lambda1(2)= ((1-b^2-gamma*eps1) - sqrt((1-b^2-gamma*eps1)^2 - 4*(gamma*eps1*b^2 
 figure(4)
 hold on
 plot(xE,yE,'b', 'LineWidth', 2.5)
+set(gca,'FontSize',20);
 plot(xE,yE2, 'r', 'LineWidth', 2.5)
 if lambda1 <0 
     plot(b,c, 'ok', 'LineWidth',4)
