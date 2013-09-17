@@ -1,0 +1,304 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{amsmath}
+\usepackage{listings}
+
+
+\begin{document}
+\title{LAB ROTATION 02 \\ 2nd Week Assignment }
+\date{18.09.2013}
+\author{\c{S}eyma Bayrak, Advisor: Philipp H\"{o}vel}
+\maketitle
+
+\section{Nonlinear Dynamics of Neural Networks}
+\subsection{Simple FitzHugh-Nagumo Model}
+This section is a continuing part of \textit{1st Week Assignment}, it aims to analyze the effect of parameters $\varepsilon$ and $\gamma$ in the equations (1) and (2) given below and to plot trajectories on nullcline graphs. 
+\begin{equation}
+ \varepsilon \dot{x} = x- \frac{x^3}{3}-y 
+\end{equation}
+\begin{equation}
+ \dot{y}=x+a 
+\end{equation} 
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_130_eps_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 1, $a=1.30$, $\varepsilon=0.005$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=50mm]{trajectory_a_130_eps_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 2, $a=1.30$, $\varepsilon=0.005$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_130_eps_1.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 3, $a=1.30$, $\varepsilon=1$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=55mm]{trajectory_a_130_eps_1.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 4, $a=1.30$, $\varepsilon=1$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+
+\begin{itemize}
+
+ \item $a$ effect: Bifurcation anaylsis done in 1st Week Assignment showed that, as long as $|a|>1$, the system is expected to be stable. Figures 1-4 have $a=1.30$ and they are all stable, or in other words "excitable".
+
+ \item $\varepsilon$ effect: it does not affect stability but plays a role in the time evolution and pathway of initial points $x_0$ and $y_0$ - how long it takes initial point to reach to the stable point. When $\varepsilon$ is small, $x$ and $y$ reaches stability faster. (?)
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_090_eps_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 5, $a=0.90$, $\varepsilon=0.005$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=55mm]{trajectory_a_090_eps_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 6, $a=0.90$, $\varepsilon=0.005$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_090_eps_1.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 7, $a=0.90$, $\varepsilon=1$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=55mm]{trajectory_a_090_eps_1.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 8, $a=0.90$, $\varepsilon=1$, $(x_0,y_0)=(-0.05,-0.75)$
+\end{footnotesize}
+\end{center}
+\begin{itemize}
+
+ \item $a$ effect: When $|a|<1$, the system is unstable. Figures 5 and 7 have oscillations with $a=0.90$. 
+
+ \item $\varepsilon$ effect: It affects the period of oscillations, when $\varepsilon$ is small, oscillatory behavior of $x$ and $y$ happens more frequently. (What about Figure 6 and 8?)
+\end{itemize}
+
+\subsection{Extended FitzHugh-Nagumo Model}
+
+\begin{equation}
+ \varepsilon \dot{x} = x- \frac{x^3}{3}-y 
+\end{equation}
+\begin{equation}
+ \dot{y}=x+a -\gamma y
+\end{equation}
+
+Fixed point can be now \textit{stable, unstable, saddle.} \newline
+Saddle point means that the signs of real parts of the eigenvalues of Jacobian matrix are different. We would like to eliminate saddle points.(?)
+
+\[
+\textbf{J}=
+\left( {\begin{array}{cc }
+(1-x_f)^2  &  -1  \\
+\varepsilon &  -\varepsilon\gamma  \\
+
+\end{array} } \right)
+\]
+
+\begin{equation*}
+ \lambda_{1,2}=\frac{trJ\pm \sqrt{tr^2J-4 det J}}{2}=
+\frac{trJ \pm trJ(\sqrt{1-\frac{4detJ}{tr^2J}})}{2}
+\end{equation*}
+
+In order to keep the real part of eigenvalue to be dominated by the first term of the equation above ($trJ$), the term in square root must be either positive and smaller than 1 or it must be negative, which contributes to $\lambda$ only with a complex part. This is done by assuming $det(J)>0$. Then the sign of the eigenvalues is controlled directly by $trJ$, it is either positive for $\lambda_1$ and $\lambda_2$ or negative.
+
+\begin{equation*}
+det(J)=\varepsilon(\gamma (x_f^2-1)+1)>0 \Longrightarrow 0<\gamma<1 
+ \end{equation*}
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_130_eps_0005_gam_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 9, $a=1.30$, $\varepsilon=0.005$, $\gamma=0.5$,  $(x_0,y_0)=(-0.75,-1)$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=55mm]{trajectory_a_130_eps_0005_gam_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 10,  $a=1.30$, $\varepsilon=0.005$,                   $\gamma=0.5$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_130_eps_1_gam_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 11, $a=1.30$, $\varepsilon=1$, $\gamma=0.5$,  $(x_0,y_0)=(-0.75,-1)$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=50mm]{trajectory_a_130_eps_1_gam_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 12,  $a=1.30$, $\varepsilon=0.005$,                   $\gamma=0.5$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_090_eps_0005_gam_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 13, $a=0.90$, $\varepsilon=0.005$, $\gamma=0.5$,  $(x_0,y_0)=(-0.75,-1)$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=50mm]{trajectory_a_090_eps_0005_gam_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 14,  $a=0.90$, $\varepsilon=0.005$, $\gamma=0.5$,  $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{itemize}
+
+ \item $a$ effect: When $|a|<1$, the system was unstable in simple FHN model, however the stability in extended FHN model is now controlled by not only $a$ but also $\gamma$.  Figures 13 and 14 shows stability with $|a|<1$ and $\gamma=0.5$ in opposite to the Figures 5-8. 
+ 
+\item $\varepsilon$ effect: It affects again the time period of initial points to reach to the stability and pathway of trajectory. Smaller $\varepsilon$ brings stability faster in Figure 13 compared to Figure 11. 
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=\textwidth]{xt_yt_a_090_eps_04_gam_005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 15, $a=0.90$, $\varepsilon=0.4$, $\gamma=0.05$,  $(x_0,y_0)=(-0.75,-1)$ 
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=55mm]{trajectory_a_090_eps_04_gam_005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 16,  $a=0.90$, $\varepsilon=0.04$, $\gamma=0.05$,  $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{itemize}
+
+ \item $\gamma$ effect: This parameter controls the stability or instability of the system. We already assumed $\gamma$ between 0 and 1 as it was discussed in bifurcation analysis of extenden FHN model. When $\gamma$ is close to 0, then the system acts unstable and $x$-$y$ seem to oscillate. (?)  Figure 13 ($\gamma=0.5$) turns into a series of oscillatory behavior for $x$ and $y$ in Figure 15 ($\gamma=0.05$).  Here I did not necessariyl keep $\varepsilon$ at the same values, but we are already sure that $\varepsilon$ has nothing to do with stability.
+\end{itemize}
+\newpage
+
+\section{Correlation Matrix of Functional Connectivity}
+
+The provided data file \textit{A.txt} is an example of fMRI signals reflecting functional connectivities of a mammalian brain at resting state. \textit{A.txt} is a simple NxN matrix, where $N=64$, meaning that the brain is assumed to have $N=64$ functionally separated nodes. The connectivity matrix can be applied to a threshold value and then converted into a new matrix, which has 1 for the elements of matrix greater than the threshold and 0 for the smaller ones.   
+
+\begin{center}
+
+  \begin{tabular}{@{} ccc@{} }
+    \includegraphics[width=40mm]{corr_matrix_r_000.eps} &
+    \includegraphics[width=40mm]{corr_matrix_r_026.eps} &
+    \includegraphics[width=40mm]{corr_matrix_r_038.eps} \\
+    \includegraphics[width=40mm]{corr_matrix_r_050.eps} &
+    \includegraphics[width=40mm]{corr_matrix_r_068.eps} &
+    \includegraphics[width=40mm]{corr_matrix_r_080.eps} \\
+  \end{tabular}
+
+
+\begin{footnotesize}
+ Figure 17, $r$ given on top of subfigures stands for the threshold values applied to the functional connectivity matrix $f_{ij}$ (here $f_{ij}$ corresponds to $A.txt$). Both of the x and y axis have scales from 0 to 64. 
+\end{footnotesize}
+\end{center}
+
+\section{Isolated FitzHugh-Nagumo Neural Model}
+
+$[VUK13]$ paper simulates the neural network dynamics of one node with $u_i$ (attractor) and $v_i$ (inhibitor) by using FHN model as in the following eqautions; 
+
+\begin{equation}
+ \dot{u}_i=g(u_i,v_i)-c \sum_{j=1}^N  f_{ij} u_j(t-\Delta t_{ij})+n_u
+\end{equation}
+\begin{equation}
+ \dot{v}_i=h(u_i,v_i)+n_v
+\end{equation}
+where $c$ is coupling strength, $f_{ij}$ is the connectivity matrix, $\Delta t_{ij}$ is time delay due to finite signal propagation velocity between nodes, $n_u$ is the noise factor. $\Delta t_{ij}$ is calculated as $\Delta t_{ij}=\frac{d_{ij}}{\nu}$, distance matrix divided by velocity and noise factor is includes the noise strength $D$. Note that $i,j=0,1,2,...,N$
+
+The functions $g$ and $v$ are modeled very similar to FitzHugh-Nagumo model introduced before:
+\begin{equation}
+ \dot{u}=g(u,v)=\tau(v+\gamma u - \frac{u^3}{3})
+\end{equation}
+\begin{equation}
+ \dot{v}=h(u,v)=-\frac{1}{\tau}(u- \alpha +bv-I)
+\end{equation}
+This section aims to observe the noise strength $D$ on an isolated system meaning no coupling (simply by $c=0$). Figures below indicate the attractor behavior of the first node $u_1$ over time with different noise strengths. 
+
+\begin{center}
+  \begin{tabular}{@{} c@{} }
+    \includegraphics[width=120mm]{u_1_r_050_c_0_D_0.eps} \\
+    \includegraphics[width=120mm]{u_1_r_050_c_0_D_001.eps} \\
+    \includegraphics[width=120mm]{u_1_r_050_c_0_D_005.eps} \\
+    \includegraphics[width=120mm]{u_1_r_050_c_0_D_010.eps} \\
+  \end{tabular}
+	\newline
+
+\begin{footnotesize}
+ Figure 18, Time evolution of $u_1$ when $c=0$, the noise strengths from top to below: $D=0$, $D=0.01$, $D=0.05$, $D=0.1$ ( $I=0$, $v=7m/s$, $b=0.2$, $\tau=1.25$, $\alpha=0.85$, $\gamma=1$, $r=0.5$)
+\end{footnotesize}
+\end{center}
+
+
+Now, let us have a look at the attractor behavior of all the isolated nodes $u_i(t)$, $i=1,2,3,...,N$ in $t=500ms$ with different noise strengths. (?=compare with section 1 and stability of figures below) 
+
+\begin{center}
+  \begin{tabular}{@{} c@{} }
+    \includegraphics[width=80mm,height=40mm]{sample_A_r0_5_sigma=0_0_D=0_0_v=70_0_tmax=1000.eps} \\
+    \includegraphics[width=80mm,height=40mm]{sample_A_r0_5_sigma=0_0_D=0_01_v=70_0_tmax=1000.eps} \\
+    \includegraphics[width=80mm,height=40mm]{sample_A_r0_5_sigma=0_0_D=0_05_v=70_0_tmax=1000.eps} \\
+    \includegraphics[width=80mm,height=40mm]{sample_A_r0_5_sigma=0_0_D=0_1_v=70_0_tmax=1000.eps} \\
+  \end{tabular}
+	\newline
+
+\begin{footnotesize}
+ Figure 19, Time evolution of $u_i(t)$ when $c=0$, the noise strengths from top to below: $D=0$, $D=0.01$, $D=0.05$, $D=0.1$. ($I=0$, $v=7m/s$, $b=0.2$, $\tau=1.25$, $\alpha=0.85$, $\gamma=1$, $r=0.5$)
+\end{footnotesize}
+\end{center}
+
+\section{Distance Distribution between Cortical Regions}
+\begin{center}
+    \includegraphics[width=\textwidth,height=80mm]{P(d)_distance_FSL.eps} 
+	\newline
+\begin{footnotesize}
+ Figure 20, Distance distribution between the $N=64$ nodes, source: $d_{ij}=$\textit{FSL\_ROIs\_distance\_matrix.dat}, the distances between nodes are Euclidean.
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=\textwidth,height=80mm]{P(d)_distance_FSL_colorbar.eps} 
+	\newline
+\begin{footnotesize}
+ Figure 21, Euclidean distance matrix $d_{ij}$ in color code
+\end{footnotesize}
+\end{center}
+
+\section{Correlation Distribution of fMRI Data}
+
+
+
+\end{document}

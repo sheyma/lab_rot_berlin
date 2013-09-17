@@ -41,10 +41,12 @@ function b = calcBOLD(simfile)
   xlabel('t in [ms]')
   ylabel('u(t)')
   
-
+  % plot only first u_i series as a function of time
   figure(2)
   plot((dt:dt:dt*nt),timeseries(:,1))
-  
+  xlabel('t in [ms]','FontSize',25)
+  ylabel('u_1(t)','FontSize',25)
+  set(gca,'FontSize',25);
  
   textobj = findobj('type', 'text');
   set(textobj, 'fontunits', 'points');
@@ -87,10 +89,24 @@ function b = calcBOLD(simfile)
   f_s       = 1/dtt                  % Sampling frequency (Hz)
   f_N       = f_s/2                 % Nyquist frequency (Hz)
  
+  % Bold signal before filtering - sheyma
+  sBOLD = zeros(n_t, N);
+  for i=1:N
+      sBOLD(:,i) = boldsignal{i};
+  end
+  
+  figure;
+  
+  plot((1:1:n_t),sBOLD(:,1:N))
+  xlabel('t in [ms]')
+  ylabel('sBOLD u(t)')
+  
+  
   % Calculate variables for Butterworth lowpass filter of order 5 
   % with cut off frequency f_c/f_N
   [Bs,As] = butter(5,f_c/f_N,'low')
 
+  
   size(BOLD_filt)
 
   for n = 1:N
@@ -99,6 +115,13 @@ function b = calcBOLD(simfile)
     %size(BOLD_filt)
   end
 
+  figure;
+  
+  plot((1:1:n_t),BOLD_filt(:,1:N))
+  xlabel('t in [ms]')
+  ylabel('BOLD_filt u(t)')
+  
+  
 
   %% Downsampling: select one point every 'ds' ms to match fmri resolution:
 

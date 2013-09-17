@@ -1,2 +1,11 @@
 *~
 *.pyc
+*.pdf
+*.eps
+*.mat
+*.backup
+*.bak
+*.aux
+*.dvi
+*.dat
+*.log

@@ -1,11 +1,11 @@
 close all;
 
 % simple FitzHugh-Naguma Model - nullcline analysis
-a=0.97;
-eps=0.02;
+a=0.90;
+eps=1;
 
 xlimit=2.5;
-ylimit=1;
+ylimit=2;
 x=-xlimit:0.1:xlimit;
 y=x-x.^3/3;
 yy=-ylimit:0.1:ylimit;
@@ -22,14 +22,14 @@ N=length(t);
 
 xt=zeros(1,N);
 yt=zeros(1,N);
-xt(1)=-1;
-yt(1)=-.65;
+xt(1)=-0.05;
+yt(1)=-.75;
 
-% for i=1:N-1
-%    xt(i+1)=xt(i)+(xt(i)-xt(i)^3/3-yt(i))*dt/eps;
-%    yt(i+1)=yt(i)+(xt(i)+a)*dt;
-% end
-% 
+for i=1:N-1
+   xt(i+1)=xt(i)+(xt(i)-xt(i)^3/3-yt(i))*dt/eps;
+   yt(i+1)=yt(i)+(xt(i)+a)*dt;
+end
+
 % figure(1)
 % subplot(1,2,1)
 % set(gca,'FontSize',25);
@@ -46,6 +46,8 @@ yt(1)=-.65;
 % hold on
 % axis([-xlimit xlimit -ylimit ylimit])
 % set(gca,'FontSize',25);
+% plot(xt,yt, 'g', 'LineWidth',4)
+% plot(xt(1),yt(1), 'xg', 'LineWidth',10)
 % plot(x,y, 'r', 'LineWidth', 2.5)
 % plot(xx,yy, 'b', 'LineWidth', 2.5)
 % xlabel('x','FontSize',20)
@@ -61,9 +63,9 @@ yt(1)=-.65;
 
 % extended FitzHugh-Nagumo Model
 
-a1=0.95;
+a1=0.9;
 eps1=0.4;
-gamma=0.005;
+gamma=0.05;
 
 x_limit=2.5;
 y_limit=1;
@@ -73,8 +75,8 @@ yE2=(xE-xE.^3/3);
 
 xT=zeros(1,N);
 yT=xT;
-xT(1)=-1;
-yT(1)=-0.65;
+xT(1)=-0.75;
+yT(1)=-1;
 
 for i=1:N-1
    xT(i+1)=xT(i)+(xT(i)-xT(i)^3/3-yT(i))*dt/eps1; 
@@ -103,6 +105,8 @@ lambda1(2)= ((1-b^2-gamma*eps1) - sqrt((1-b^2-gamma*eps1)^2 - 4*(gamma*eps1*b^2 
 
 figure(4)
 hold on
+plot(xT,yT, 'g', 'LineWidth',4)
+plot(xT(1),yT(1), 'xg', 'LineWidth',10)
 plot(xE,yE,'b', 'LineWidth', 2.5)
 set(gca,'FontSize',20);
 plot(xE,yE2, 'r', 'LineWidth', 2.5)
@@ -114,5 +118,5 @@ else
     title('Fixed point is unstable', 'FontSize',20)
 end
     
-    axis([-x_limit x_limit -y_limit y_limit])
+    axis([-x_limit x_limit -ylimit ylimit])
 hold off
