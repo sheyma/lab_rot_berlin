@@ -42,11 +42,11 @@ function b = calcBOLD(simfile)
   ylabel('u(t)')
   
   % plot only first u_i series as a function of time
-  figure(2)
-  plot((dt:dt:dt*nt),timeseries(:,1))
-  xlabel('t in [ms]','FontSize',25)
-  ylabel('u_1(t)','FontSize',25)
-  set(gca,'FontSize',25);
+%   figure(2)
+%   plot((dt:dt:dt*nt),timeseries(:,1))
+%   xlabel('t in [ms]','FontSize',25)
+%   ylabel('u_1(t)','FontSize',25)
+%   set(gca,'FontSize',25);
  
   textobj = findobj('type', 'text');
   set(textobj, 'fontunits', 'points');
@@ -95,13 +95,24 @@ function b = calcBOLD(simfile)
       sBOLD(:,i) = boldsignal{i};
   end
   
-  figure;
-  
-  plot((1:1:n_t),sBOLD(:,1:N))
-  xlabel('t in [ms]')
-  ylabel('sBOLD u(t)')
-  
-  
+%   figure(3);
+%   
+%   plot((dt:dt:dt*n_t),sBOLD(:,1))
+%   xlabel('t in [ms]','FontSize',25)
+%   ylabel('simulated - u_1(t)','FontSize',25)
+%   set(gca,'FontSize',25 )
+% 
+
+%   figure(4);
+%   
+%   plot((dt:dt:dt*n_t),sBOLD(:,1:N))
+%   xlabel('t in [ms]','FontSize',25)
+%   ylabel('simulated - u_1(t)','FontSize',25)
+%   set(gca,'FontSize',25 )
+
+
+
+
   % Calculate variables for Butterworth lowpass filter of order 5 
   % with cut off frequency f_c/f_N
   [Bs,As] = butter(5,f_c/f_N,'low')
@@ -114,14 +125,16 @@ function b = calcBOLD(simfile)
     BOLD_filt(:,n)  = filtfilt(Bs,As,x); % Apply filter
     %size(BOLD_filt)
   end
+  
+  
 
-  figure;
   
-  plot((1:1:n_t),BOLD_filt(:,1:N))
-  xlabel('t in [ms]')
-  ylabel('BOLD_filt u(t)')
-  
-  
+%   k=figure(5);
+%   plot((dt:dt:dt*n_t),BOLD_filt(:,1:N))
+%   xlabel('t in [ms]','FontSize',25)
+%   ylabel('simulated - u_i(t)','FontSize',25)
+%   set(gca,'FontSize',25 )
+%   set(get(k,'Position'), [5 567 1272 380])
 
   %% Downsampling: select one point every 'ds' ms to match fmri resolution:
 

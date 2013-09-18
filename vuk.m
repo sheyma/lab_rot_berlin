@@ -8,16 +8,16 @@ tf=100;
 t=t0:dt:tf;
 N=length(t);
 
-alpha=.85;
+alpha=.5;
 tau=1.25;
-gamma=1.0;
-b=0.2;
+gamma=0.9;  %gamma close to 1
+b=-0.2;  % incline 
 
 
 x_limit=2.5;
 y_limit=2;
-xE=-x_limit:0.01:x_limit;
-yE1=xE.^3/3 - gamma*xE;
+xE=(-x_limit:0.01:x_limit);
+yE1=-xE.^3/3 + gamma*xE;  % make yE totally minus
 yE2=(alpha-xE)/b;
 
 xT=zeros(1,N);
@@ -30,17 +30,17 @@ for i=1:N-1
    yT(i+1)=yT(i)+(xT(i)+b*yT(i)-alpha)*(-1/tau)*dt;
 end
 
-figure(1)
-subplot(1,2,1)
-plot(t,xT,'k','LineWidth',1.5)
-set(gca,'FontSize',25);
-xlabel('time','FontSize',25)
-ylabel('x','FontSize',25)
-subplot(1,2,2)
-set(gca,'FontSize',25);
-plot(t,yT,'k','LineWidth',1.5)
-xlabel('time','FontSize',25)
-ylabel('y','FontSize',25)
+% figure(1)
+% subplot(1,2,1)
+% plot(t,xT,'k','LineWidth',1.5)
+% set(gca,'FontSize',25);
+% xlabel('time','FontSize',25)
+% ylabel('x','FontSize',25)
+% subplot(1,2,2)
+% set(gca,'FontSize',25);
+% plot(t,yT,'k','LineWidth',1.5)
+% xlabel('time','FontSize',25)
+% ylabel('y','FontSize',25)
 
 % intersection of nullclines
 its0=-2; %initial intersection point trial

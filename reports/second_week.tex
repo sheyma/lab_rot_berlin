@@ -299,6 +299,125 @@ Now, let us have a look at the attractor behavior of all the isolated nodes $u_i
 
 \section{Correlation Distribution of fMRI Data}
 
+\begin{center}
+    \includegraphics[width=\textwidth,height=80mm]{P(d)_distance_A_txt.eps} 
+	\newline
+\begin{footnotesize}
+ Figure 22, Data distribution in functional connectivity matrix as a result of fMRI signaling, $f_{ij}$=\textit{A.txt}, where ${i,j}=1,2,...,N=64$
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=\textwidth,height=80mm]{colorbar_A_r_000.eps} 
+	\newline
+\begin{footnotesize}
+ Figure 23, Functional connectivity matrix $f_{ij}$ in color code. $f_{ij}$=\textit{A.txt}, there is no threshold applied on it, $r=0$
+\end{footnotesize}
+\end{center}
+
+
+\begin{center}
+
+  \begin{tabular}{@{} ccc@{} }
+    
+    \includegraphics[width=45mm,height=45mm]{colorbar_A_r_026.eps} &
+\includegraphics[width=45mm,height=45mm]{colorbar_A_r_038.eps} &  	\includegraphics[width=45mm,height=45mm]{colorbar_A_r_050.eps} \\
+
+  \end{tabular}
+
+
+\begin{footnotesize}
+ Figure 24, Functional connectivity matrices $f_{ij}$ with applied thresholds in color code, red color for the ones, and blue for the zeros. Figure on the left: $f_{ij}$=\textit{A\_r.0.26.dat}, in the middle: $f_{ij}$=\textit{A\_r.0.38.dat}, on the right: $f_{ij}$=\textit{A\_r.0.50.dat} 
+\end{footnotesize}
+\end{center}
+
+\section{Visualization of $f_{ij}$ in 2D Anatomical Space with different $r$s}
+\begin{center}
+  \begin{tabular}{@{} cc@{} }
+    \includegraphics[width=70mm]{anatomic_A_r_000.eps} &
+    \includegraphics[width=70mm]{anatomic_A_r_026.eps} \\
+    \includegraphics[width=70mm]{anatomic_A_r_038.eps} &
+    \includegraphics[width=70mm]{anatomic_A_r_050.eps} \\
+  \end{tabular}
+\begin{footnotesize}
+ Figure 25, Visualization of threshold matrices in anatomical space by locating each region according to its $x$ and $y$ coordinates and drawing a link between significantly connected regions. (?= why r=0 is similar to r=0.5)
+\end{footnotesize}
+\end{center}
+
+\section{Visualization of $f_{ij}$ in 3D Anatomical Space with different $r$s}
+\begin{center}
+  \begin{tabular}{@{} cc@{} }
+    \includegraphics[width=60mm]{anatomic_3D_A_r_000.eps} &
+    \includegraphics[width=60mm]{anatomic_3D_A_r_026.eps} \\
+    \includegraphics[width=60mm]{anatomic_3D_A_r_038.eps} &
+    \includegraphics[width=60mm]{anatomic_3D_A_r_050.eps} \\
+  \end{tabular}
+\begin{footnotesize}
+ Figure 26, Visualization of threshold matrices in anatomical space by locating each region according to its $x$, $y$ and $z$ coordinates and drawing a link between significantly connected regions. (?= why r=0 is similar to r=0.5)
+\end{footnotesize}
+\end{center}
+
+\textit{This part is not yet completed.}
+
+
+\section{Simulated Bold Signals - The new $u_i$ time series with Baloon-Windkessel Model }
+\begin{center}
+  \begin{tabular}{@{} c@{} }
+    \includegraphics[width=120mm]{simul_u_1_r_050_c_0_D_0.eps} \\
+    \includegraphics[width=120mm]{simul_u_1_r_050_c_0_D_001.eps} \\
+    \includegraphics[width=120mm]{simul_u_1_r_050_c_0_D_005.eps} \\
+  \end{tabular}
+\begin{footnotesize}
+ Figure 27, Time evolution of $u_1$ when $c=0$, the noise strengths from top to below: $D=0$, $D=0.01$, $D=0.05$, $D=0.1$ ( $I=0$, $v=7m/s$, $b=0.2$, $\tau=1.25$, $\alpha=0.85$, $\gamma=1$, $r=0.5$)
+\end{footnotesize}
+\end{center}
+
+\begin{itemize}
+ \item Discuss difference between Figure 25 and Figure 18 and shorter time now(?)
+ \item When all the $u_i$ series plotted over time, it does not seem clearly different than the $u_1(t)$ evolution. (?)
+\end{itemize} 
+
+When "Butterworth lowpass filter of order 5" is applied to the simulated BOLD signalling, then the $u_i$ time series look like as in the following figures.  
+
+\begin{center}
+  \begin{tabular}{@{} c@{} }
+    \includegraphics[width=120mm]{simul_filt_u_1_r_050_c_0_D_0.eps} \\
+    \includegraphics[width=120mm]{simul_filt_u_1_r_050_c_0_D_001.eps} \\
+    \includegraphics[width=120mm]{simul_filt_u_1_r_050_c_0_D_005.eps} \\
+  \end{tabular}
+\begin{footnotesize}
+ Figure 28, Time evolution of $u_i$ when $c=0$, the noise strengths from top to below: $D=0$, $D=0.01$, $D=0.05$, $D=0.1$ ( $I=0$, $v=7m/s$, $b=0.2$, $\tau=1.25$, $\alpha=0.85$, $\gamma=1$, $r=0.5$)
+\end{footnotesize}
+\end{center}
+
+\begin{itemize}
+ \item Discuss filtering with Vesna (?)
+\end{itemize} 
+
+\newpage
+\section{To be continued... FHN Model}
+How to change parameters in [VUK] paper in order to get similar state space graph as in the extenden FHN model? Answer: 
+\begin{lstlisting}
+gamma=0.9;  		%gamma close to 1
+b=-0.2;    		%change + incline to - incline 
+x_limit=2.5;
+y_limit=2;
+xE=(-x_limit:0.01:x_limit);
+yE1=-xE.^3/3 + gamma*xE;  % make yE totally minus
+yE2=(alpha-xE)/b;
+ \end{lstlisting}
+
+
+\begin{center}
+  
+    \includegraphics[width=\textwidth]{deneme.eps} \\
+ 
+\begin{footnotesize}
+ Figure 29
+\end{footnotesize}
+\end{center}
+
+\textit{This part is not yet comleted.}
 
 
 \end{document}
