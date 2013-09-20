@@ -34,7 +34,7 @@ function b = calcBOLD(simfile)
   close all;
   % specify plotting interval:
   minval = 325;
-  range = 500;
+  range = 50;
   h = figure;
   plot(timeseries(minval:minval+range,:));
   xlim([0 range])
