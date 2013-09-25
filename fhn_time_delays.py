@@ -55,7 +55,7 @@ params = { # Fitzhugh-Nagumo parameters...
 
 	'D' : float(sys.argv[4]),   # noise # 0.05
 
-	'v' : 70.0, # velocity in 0.1 m/s ???
+	'v' : 150.0, # velocity in 0.1 m/s ???
 	#'tau' : 1.0, 
 
 }
