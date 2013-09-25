@@ -1,4 +1,5 @@
 #!/usr/bin/python2.7
+# -*- coding: utf-8 -*-
 
 import numpy as np
 import networkx as nx
@@ -24,25 +25,34 @@ print(' ')
 print(h)
 print('')
 
-threshold_value = 0.26
 
-filename = 'D.txt'
+def get_my_threshold_matrix(filename,threshold_value) :	
+	
+	A = np.transpose(np.loadtxt(filename, unpack=True)) 
 
-A = np.transpose(np.loadtxt(filename, unpack=True)) 
+	B = np.zeros((len(A),len(A)))
+	for row in range(len(A)):
+		for item in range(len(A)):
+			if row != item:
+				if A[row,item] >= threshold_value:
+					B[row,item] = 1
+				else:
+					B[row,item] = 0
+	
+	print(B)
+	G = nx.from_numpy_matrix(B,create_using=nx.Graph())   # ???
+	return G
 
-B = np.zeros((len(A),len(A)))
+if __name__ == '__main__':
+  import sys
+  usage = 'Usage: %s correlation_matrix threshold' % sys.argv[0]
+  try:
+    infilename_data = sys.argv[1]
+    value = float(sys.argv[2])
+  except:
+    print usage; sys.exit(1)
 
-for row in range(len(A)):
-	for item in range(len(A)):
-	  if row != item:
-		if A[row,item] >= threshold_value:
-		  B[row,item] = 1
-		else:
-		  B[row,item] = 0
-
-print(B)
-
-G = nx.from_numpy_matrix(B,create_using=nx.Graph())   # ???
+G = get_my_threshold_matrix(infilename_data, value)
 
 n_nodes = nx.number_of_nodes(G)
 n_edges = nx.number_of_edges(G)
@@ -80,33 +90,31 @@ for item in keys:
 print "check sum: %f" % check_sum
 print 'clustering coefficient of full network', nx.average_clustering(G)
 
+
 # GET NUMBER OF EDGES FOR DIFFERENT THRESHOLDS
-threshold = 0
-filename = 'D.txt'
-
-f = open(filename[:-4]+'_edges.dat','w')
-print (f)
-
-for i in range(0,101):
+def get_my_number_of_edges(filename):
+	f = open(filename[:-4]+'_edges.dat','w')
 	
-	threshold = float(i)/100
-	A = np.transpose(np.loadtxt(filename, unpack=True)) 
-	B = np.zeros((len(A),len(A)))
+	threshold = 0
+	
+	for i in range(0,101):
+		
+		threshold = float(i)/100
+		G = get_my_threshold_matrix(filename,threshold) 
 
-	for row in range(len(A)):
-		for item in range(len(A)):
-		  if row != item:
-			if A[row,item] >= threshold:
-			  B[row,item] = 1
-			else:
-			  B[row,item] = 0
+		N = nx.number_of_nodes(G) 
+		max_number_edges = N * (N-1.) / 2
+		E = nx.number_of_edges(G)	
+		f.write("%f\t%d\t%f\n" % (threshold, E, E/max_number_edges))
+	f.close()
+	
 
-	G = nx.from_numpy_matrix(B,create_using=nx.Graph()) 
-	N = nx.number_of_nodes(G) 
-	max_number_edges = N * (N-1.) / 2
-	E = nx.number_of_edges(G)	
-	f.write("%f\t%d\t%f\n" % (threshold, E, E/max_number_edges))
-f.close()
+get_my_number_of_edges(infilename_data)
+
+
+
+
+
 
 # GET CLUSTER COEFFICIENTS FOR DIFFERENT THRESHOLDS
 threshold = 0
@@ -156,12 +164,6 @@ for i in range(0,101) :
 	
 	f.write('%f\t%f\t\n' % (threshold, nx.average_clustering(G)))
 f.close()
-
-
-
-
-
-
 
 
 
