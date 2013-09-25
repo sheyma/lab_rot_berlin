@@ -4,7 +4,7 @@
 def get_threshold_matrix(filename, threshold_value):
   import networkx as nx
   import numpy as np 
-  A = np.transpose(np.loadtxt(filename, unpack=True))
+  A = np.transpose(np.loadtxt(filename, unpack=True)) 
 
   B = np.zeros((len(A),len(A)))
 
@@ -18,6 +18,7 @@ def get_threshold_matrix(filename, threshold_value):
 
   G=nx.from_numpy_matrix(B,create_using=nx.Graph())
 
+  print(A)
   return G
 
 def print_adjacency_matrix(G):
@@ -402,15 +403,17 @@ if __name__ == '__main__':
   print_adjacency_matrix(network)
   export_adjacency_matrix(network, infilename_data, threshold)
 
-
-  #get_characteristics(network, infilename_data)
   #threshold = 0.51
-  #get_nodes_of_components(infilename_data, threshold)
-  
-  ####automated choice of the the threshold value
+  #get_characteristics(network, infilename_data)
   #get_number_of_edges(infilename_data)
   #get_cluster_coefficients(infilename_data)
   #get_average_cluster_coefficient(infilename_data)
+  
+  
+  #get_nodes_of_components(infilename_data, threshold)
+  
+  ####automated choice of the the threshold value
+ 
   #get_degree_distr(infilename_data)
   #get_degrees(infilename_data)
   #get_average_degree(infilename_data)
