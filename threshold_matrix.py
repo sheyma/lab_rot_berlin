@@ -17,8 +17,6 @@ def get_threshold_matrix(filename, threshold_value):
           B[row,item] = 0
 
   G=nx.from_numpy_matrix(B,create_using=nx.Graph())
-
-  print(A)
   return G
 
 def print_adjacency_matrix(G):
@@ -226,7 +224,7 @@ def get_global_efficiency(filename):
   f.close()  
   g.close()  
   
-def get_shortest_pathlength(filename):
+def get_shortest_pathlength(filename): 
   import networkx as nx
   threshold = 0
   f = open(filename[:-4]+'_shortest_pathlength.dat','w')
@@ -408,17 +406,15 @@ if __name__ == '__main__':
   #get_number_of_edges(infilename_data)
   #get_cluster_coefficients(infilename_data)
   #get_average_cluster_coefficient(infilename_data)
-  
-  
-  #get_nodes_of_components(infilename_data, threshold)
-  
-  ####automated choice of the the threshold value
- 
   #get_degree_distr(infilename_data)
   #get_degrees(infilename_data)
   #get_average_degree(infilename_data)
   #get_number_of_components(infilename_data)
   #get_shortest_pathlength(infilename_data)
+    
+  ####automated choice of the the threshold value
+
+  #get_nodes_of_components(infilename_data, threshold)
   #get_harmonic_pathlength(infilename_data)
   #get_global_efficiency(infilename_data)
   #get_local_efficiency(infilename_data)
