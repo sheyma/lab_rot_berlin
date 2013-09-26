@@ -8,16 +8,16 @@ tf=100;
 t=t0:dt:tf;
 N=length(t);
 
-alpha=0.85;
+alpha=0.5;
 tau=1.25;
-gamma=1;  %gamma close to 1
-b=0.2;  % incline 
+gamma=0.9;  
+b=-0.2;  % negative incline 
 
 
 x_limit=2.5;
 y_limit=2;
 xE=(-x_limit:0.01:x_limit);
-yE1=xE.^3/3 - gamma*xE;  % make yE totally minus
+yE1=-xE.^3/3 + gamma*xE;  % make yE totally minus
 yE2=(alpha-xE)/b;
 
 xT=zeros(1,N);
@@ -44,16 +44,16 @@ ylabel('y','FontSize',25)
 
 % intersection of nullclines
 its0=-2; %initial intersection point trial
-its_x = fsolve(@(its_x)(-gamma*its_x -(alpha-its_x)/b + its_x^3/3 ), its0);
+its_x = fsolve(@(its_x)(+gamma*its_x -(alpha-its_x)/b - its_x^3/3 ), its0);
 its_y = (alpha-its_x)/b;
-its_y2 = its_x^3/3 - gamma*its_x;
+its_y2 = -its_x^3/3 + gamma*its_x;
 
 A=1;
-B=b/tau - (gamma - its_x^2)*tau;
-C=1- b*(gamma - its_x^2);
+B=b/tau + (gamma - its_x^2)*tau;
+C=1- b*(-gamma + its_x^2);
 
-lambda1= (-B + sqrt(B^2 - 4*A*C)) / (2*A);
-lambda2= (-B - sqrt(B^2 - 4*A*C)) / (2*A);
+lambda1= (-B + sqrt(B^2 - 4*A*C)) / (2*A)
+lambda2= (-B - sqrt(B^2 - 4*A*C)) / (2*A)
 
 figure(2)
 hold on
@@ -81,4 +81,3 @@ end
 hold off
 
 %note saddle does not happen actually, beacuse we eliminate it
-

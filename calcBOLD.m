@@ -34,19 +34,20 @@ function b = calcBOLD(simfile)
   close all;
   % specify plotting interval:
   minval = 325;
-  range = 50;
+  range = 500;
   h = figure;
   plot(timeseries(minval:minval+range,:));
   xlim([0 range])
   xlabel('t in [ms]')
   ylabel('u(t)')
+  axis([0 range 0.93 1.04])
   
-  % plot only first u_i series as a function of time
-%   figure(2)
-%   plot((dt:dt:dt*nt),timeseries(:,1))
-%   xlabel('t in [ms]','FontSize',25)
-%   ylabel('u_1(t)','FontSize',25)
-%   set(gca,'FontSize',25);
+%  plot only first u_i series as a function of time
+  figure(2)
+  plot((dt:dt:dt*nt),timeseries(:,1))
+  xlabel('t in [ms]','FontSize',25)
+  ylabel('u_1(t)','FontSize',25)
+  set(gca,'FontSize',25);
  
   textobj = findobj('type', 'text');
   set(textobj, 'fontunits', 'points');
@@ -162,6 +163,9 @@ function b = calcBOLD(simfile)
   imagesc(simfc); % automatic color scaling from min to max value 
   %imagesc(simfc,[-1.0 1.0]); chose this for color scaling from -1 to 1
   colorbar;
+  %title(['v=',simfile(29:30),' m/s'],'FontSize',40)
+  set(gca, 'fontsize',30)
+  %ylabel('r=0.78','FontSize',40)
 
   textobj = findobj('type', 'text');
   set(textobj, 'fontunits', 'points');

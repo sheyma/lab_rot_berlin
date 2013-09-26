@@ -25,10 +25,10 @@ yt=zeros(1,N);
 xt(1)=-0.05;
 yt(1)=-.75;
 
-for i=1:N-1
-   xt(i+1)=xt(i)+(xt(i)-xt(i)^3/3-yt(i))*dt/eps;
-   yt(i+1)=yt(i)+(xt(i)+a)*dt;
-end
+% for i=1:N-1
+%    xt(i+1)=xt(i)+(xt(i)-xt(i)^3/3-yt(i))*dt/eps;
+%    yt(i+1)=yt(i)+(xt(i)+a)*dt;
+% end
 
 % figure(1)
 % subplot(1,2,1)
@@ -63,24 +63,28 @@ end
 
 % extended FitzHugh-Nagumo Model
 
-a1=0.9;
-eps1=0.4;
+a1=1.3;
+eps1=0.005;
 gamma=0.05;
+
+xT=zeros(1,N);
+noise=wgn(1,N,1);
+yT=xT;
+xT(1)=-0.75;
+yT(1)=-1;
+D=0.016;
 
 x_limit=2.5;
 y_limit=1;
 xE=-x_limit:0.01:x_limit;
-yE=(xE+a1)./gamma;
-yE2=(xE-xE.^3/3);
+yE=(xE+a1+D*noise(1,1:length(xE)))./gamma;
+yE2=(xE-xE.^3/3+D*noise(1,1:length(xE))*eps);
 
-xT=zeros(1,N);
-yT=xT;
-xT(1)=-0.75;
-yT(1)=-1;
+
 
 for i=1:N-1
-   xT(i+1)=xT(i)+(xT(i)-xT(i)^3/3-yT(i))*dt/eps1; 
-   yT(i+1)=yT(i)+(xT(i)-gamma*yT(i)+a1)*dt;
+   xT(i+1)=xT(i)+(xT(i)-xT(i)^3/3-yT(i))*dt/eps1+D*noise(1,i+1)*dt; 
+   yT(i+1)=yT(i)+(xT(i)-gamma*yT(i)+a1)*dt+D*noise(1,i+1)*dt;
 end
 
 figure(3)
@@ -97,15 +101,15 @@ ylabel('y','FontSize',25)
 
 % intersection of nullclines
 b0=-2;
-b = fsolve(@(b)(-a1/gamma+ (1-1/gamma)*b - b^3/3 ), b0);
-c = (b+a1)/gamma;
+b = fsolve(@(b)((-a1-ny)/gamma+eps*nx+ (1-1/gamma)*b - b^3/3 ), b0);
+c = (b+a1+ny)/gamma;
 
 lambda1(1)= ((1-b^2-gamma*eps1) + sqrt((1-b^2-gamma*eps1)^2 - 4*(gamma*eps1*b^2 + eps1 - gamma*eps1)  ) )/2;
 lambda1(2)= ((1-b^2-gamma*eps1) - sqrt((1-b^2-gamma*eps1)^2 - 4*(gamma*eps1*b^2 + eps1 - gamma*eps1)  )) /2;
 
 figure(4)
 hold on
-plot(xT,yT, 'g', 'LineWidth',4)
+plot(xT,yT, 'g', 'LineWidth',2.5)
 plot(xT(1),yT(1), 'xg', 'LineWidth',10)
 plot(xE,yE,'b', 'LineWidth', 2.5)
 set(gca,'FontSize',20);
@@ -114,7 +118,7 @@ if lambda1 <0
     plot(b,c, 'ok', 'LineWidth',4)
     title('Fixed point is stable', 'FontSize',20)
 else
-    plot(b,c, 'sk', 'LineWidth',2)
+    plot(b,c, 'sk', 'LineWidth',4)
     title('Fixed point is unstable', 'FontSize',20)
 end
     
