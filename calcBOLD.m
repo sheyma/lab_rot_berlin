@@ -18,7 +18,7 @@ function b = calcBOLD(simfile)
   nt = size(tvec,1)
   dt = tvec(2)-tvec(1)     % same dt as in fhn_time_delays.py
 
-  N = (size(simoutput,2)-1)/2  % number of nodes 
+  N = floor((size(simoutput,2)-1)/2)  % number of nodes 
 
   timeseries = zeros(size(simoutput,1),N);
   size(timeseries)
@@ -138,7 +138,7 @@ function b = calcBOLD(simfile)
 
   %% Downsampling: select one point every 'ds' ms to match fmri resolution:
 
-  ds=0.5; 
+  ds=2; 
   down_bds=BOLD_filt(1:ds/dtt:end,:);
   lenBold = size(down_bds,1)
   
