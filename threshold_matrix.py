@@ -199,7 +199,7 @@ def get_local_efficiency(filename):
   f.close()  
   g.close()  
 
-def get_global_efficiency(filename):
+def get_global_efficiency(filename): 
   import networkx as nx
   threshold = 0
   f = open(filename[:-4]+'_global_efficiency.dat','w')
@@ -413,11 +413,9 @@ if __name__ == '__main__':
   #get_nodes_of_components(infilename_data, threshold)
   #get_shortest_pathlength(infilename_data)
   #get_harmonic_pathlength(infilename_data)  
-  
-  ####automated choice of the the threshold value
-
-  
- 
   #get_global_efficiency(infilename_data)
+  ####automated choice of the the threshold value
+ 
+  
   #get_local_efficiency(infilename_data)
   #get_small_worldness(infilename_data)
