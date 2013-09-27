@@ -410,12 +410,14 @@ if __name__ == '__main__':
   #get_degrees(infilename_data)
   #get_average_degree(infilename_data)
   #get_number_of_components(infilename_data)
+  #get_nodes_of_components(infilename_data, threshold)
   #get_shortest_pathlength(infilename_data)
-    
+  #get_harmonic_pathlength(infilename_data)  
+  
   ####automated choice of the the threshold value
 
-  #get_nodes_of_components(infilename_data, threshold)
-  #get_harmonic_pathlength(infilename_data)
+  
+ 
   #get_global_efficiency(infilename_data)
   #get_local_efficiency(infilename_data)
   #get_small_worldness(infilename_data)
