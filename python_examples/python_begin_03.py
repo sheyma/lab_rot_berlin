@@ -39,7 +39,7 @@ def get_my_threshold_matrix(filename,threshold_value) :
 				else:
 					B[row,item] = 0
 	
-	G = nx.from_numpy_matrix(B,create_using=nx.Graph())   # ???
+	G = nx.from_numpy_matrix(B,create_using=nx.Graph())   
 	return G
 
 def get_my_characteristics(G, filename) :
@@ -79,8 +79,6 @@ def get_my_characteristics(G, filename) :
 	print "check sum: %f" % check_sum
 	print 'clustering coefficient of full network', nx.average_clustering(G)
 	return 0  ##?
-
-
 
 # GET NUMBER OF EDGES FOR DIFFERENT THRESHOLDS
 
@@ -190,6 +188,22 @@ def get_my_number_of_components(filename) : #wiki: connec._comp.
 		f.write('%f\t%d\n'%(threshold,nx.number_connected_components(G)))
 	f.close()
 
+def get_my_nodes_of_components(filename, value):
+	import networkx as nx
+	threshold = value
+	f = open(filename[:-4]+'_nodes_components_r'+str(threshold)+'.dat','w')
+	G = get_my_threshold_matrix(filename, threshold)
+	print 'number of connected components:', nx.number_connected_components(G)
+	comps = nx.connected_component_subgraphs(G)
+	counter = 0
+	f.write('threshold\tnumber_subG\tnode\tgraph_nodes\n')
+	for graph in comps :
+		counter += 1
+		liste = graph.nodes()
+		for node in graph.nodes() :
+			f.write('%f\t%d\t\t%d\t%s\n' % (value, counter, node, liste))
+	f.close()
+
 def get_my_shortest_pathlength(filename):
 	threshold = 0
 	f = open(filename[:-4]+'_shortest_pathlength.dat','w')
@@ -198,7 +212,7 @@ def get_my_shortest_pathlength(filename):
 	for i in range(0,101):
 		threshold = float(i)/100
 		G = get_my_threshold_matrix(filename, threshold)
-		components = nx.connected_component_subgraphs(G) #subgraphs in mtrx !
+		components = nx.connected_component_subgraphs(G) #subgraphs in graph!
 		values = []		
 		for i in range(len(components)) :
 			if nx.number_of_nodes(components[i]) >1 : # pathleng: min 2 node
@@ -211,24 +225,83 @@ def get_my_shortest_pathlength(filename):
 			#print 'average shortest pathlength: %f ' % (sum(values)/len(values))
 	f.close()	
 
-
-def get_my_nodes_of_components(filename, value):
-	import networkx as nx
-	threshold = value
-	f = open(filename[:-4]+'_nodes_components_r'+str(threshold)+'.dat','w')
-	G = get_my_threshold_matrix(filename, threshold)
-	print 'number of connected components:', nx.number_connected_components(G)
-	comps = nx.connected_component_subgraphs(G)
-	counter = 0
-	f.write('threshold\tnumber_subG\tnode\n')
-	for graph in comps :
-		counter += 1
-		liste = graph.nodes()
-		for node in graph.nodes() :
-			f.write('%f\t%d\t\t%d\n' % (value,counter,graph.nodes()))
+def get_my_harmonic_pathlength(filename) :		# ?? 
+	threshold = 0
+	f = open(filename[:-4]+'_harmonic_pathlength.dat','w')
+	print f	
+	f.write('threshold\tharmonic_pathlength\n')
+	for i in range(0,101) :
+		threshold = float(i)/100
+		G = get_my_threshold_matrix(filename, threshold)
+		components = nx.connected_component_subgraphs(G) # subgraphs in graph!
+		values =[]
+		for i in range(len(components)) :
+			adjacency = nx.adjacency_matrix(components[i]) 
+			hiwi = 0
+			values_indi = []
+			for row in adjacency :
+				if row.sum() > 0 :
+					hiwi += 1./row.sum()
+					values_indi.append(hiwi)
+			if len(values_indi) > 0 :
+				values.append(sum(values_indi)/len(values_indi))
+		if len(values) == 0 :
+			f.write('%f\t0.\n' % (threshold))
+		else :
+			f.write('%f\t%f\n' % (threshold, (sum(values)/len(values))))
 	f.close()
 
+def get_my_global_efficiency(filename) :
+	threshold = 0
+	f = open(filename[:-4]+'_global_efficiency.dat','w')
+	g = open(filename[:-4]+'_node_global_efficiency.dat','w')
+	print f
+	print g
+	f.write('threshold\tglob_effic\n')
+	g.write('node\tthreshold\tnode_glob_effc\n')	
+	for i in range(0,101):
+		threshold = float(i)/100
+		G = get_my_threshold_matrix(filename, threshold)
+		global_efficiency = 0.
+		for node_i in G :
+			sum_inverse_dist = 0.
+			for node_j in G :
+				if node_i != node_j :
+					if nx.has_path(G, node_i, node_j) == True :
+						sum_inverse_dist += 1. / nx.shortest_path_length(G, node_i, node_j) 
+			g.write('%d\t%f\t%f\n' % ((node_i+1), threshold, (sum_inverse_dist / nx.number_of_nodes(G)) )) ##?
+			global_efficiency += sum_inverse_dist / (nx.number_of_nodes(G) -1.)
+		g.write("\n")
+		global_efficiency = global_efficiency / nx.number_of_nodes(G)
+		f.write("%f\t%f\n" % (threshold, global_efficiency))
+	f.close()
+	g.close()
 
+def get_my_local_efficiency(filename) :
+	threshold = 0
+	f = open(filename[:-4]+'_local_efficiency.dat','w')
+	g = open(filename[:-4]+'_node_local_efficiency.dat','w')
+	for i in range(0,101):
+		threshold = float(i)/100
+		G = get_my_threshold_matrix(filename, threshold)
+		local_efficiency = 0.
+		for node_i in G:
+			hiwi = 0
+			if G.degree(node_i) > 1 :
+				neigborhood_i = G.neigbors(node_i)
+				for node_j in neigborhod_i :
+					for node_h in neighborhood_i :
+						if node_j != node_h :
+							hiwi += 1. / nx.shortest_path_length(G, node_j, node_h)				
+						g.write('%d\t%f\t%f\n' % ((node_i+1), threshold, (hiwi/ (G.degree(node_i)*(G.degree(node_i) -1.)))))
+						local_efficiency += (hiwi/ (G.degree(node_i) * (G.degree(node_i) -1.)) )
+			else :
+				g.write('%d\t%f\t%f\n' % ((node_i+1), threshold, hiwi))
+		g.write("\n")
+		local_efficiency = local_efficiency / nx.number_of_nodes(G)
+		f.write("%f\t%f\n" % (threshold, local_efficiency))
+	f.close()
+	g.close()
 
 
 if __name__ == '__main__':
@@ -261,12 +334,13 @@ get_my_average_degree(infilename_data)
 
 get_my_number_of_components(infilename_data)
 
-get_my_shortest_pathlength(infilename_data)
-
 get_my_nodes_of_components(infilename_data,value)
 
+get_my_shortest_pathlength(infilename_data)
 
+get_my_harmonic_pathlength(infilename_data)
 
+get_my_global_efficiency(infilename_data)
 
 
 
