@@ -41,7 +41,21 @@ def get_my_threshold_matrix(filename,threshold_value) :
 	
 	G = nx.from_numpy_matrix(B,create_using=nx.Graph())   
 	return G
-
+	
+def print_adjacency_matrix(G) :
+	print nx.adjacency_matrix(G)
+	
+	
+def export_adjacency_matrix(G, filename, threshold_value):
+	hiwi = nx.adjacency_matrix(G)
+	f = open(filename[:-4]+'_r'+str(threshold_value)+'.dat','w')
+	print f
+	for i in range(len(hiwi)):
+		for j in range(len(hiwi)):
+			f.write("%d\t" % (hiwi[i,j]))
+		f.write("\n")
+	f.close()
+	
 def get_my_characteristics(G, filename) :
 	n_nodes = nx.number_of_nodes(G)
 	n_edges = nx.number_of_edges(G)
@@ -281,6 +295,10 @@ def get_my_local_efficiency(filename) :
 	threshold = 0
 	f = open(filename[:-4]+'_local_efficiency.dat','w')
 	g = open(filename[:-4]+'_node_local_efficiency.dat','w')
+	print g
+	print f
+	g.write('node\threshold\tnode_local_eff\n')
+	f.write('threshold\tnetwork_loc_eff\n')
 	for i in range(0,101):
 		threshold = float(i)/100
 		G = get_my_threshold_matrix(filename, threshold)
@@ -288,13 +306,13 @@ def get_my_local_efficiency(filename) :
 		for node_i in G:
 			hiwi = 0
 			if G.degree(node_i) > 1 :
-				neigborhood_i = G.neigbors(node_i)
-				for node_j in neigborhod_i :
+				neighborhood_i = G.neighbors(node_i)
+				for node_j in neighborhood_i :
 					for node_h in neighborhood_i :
 						if node_j != node_h :
 							hiwi += 1. / nx.shortest_path_length(G, node_j, node_h)				
-						g.write('%d\t%f\t%f\n' % ((node_i+1), threshold, (hiwi/ (G.degree(node_i)*(G.degree(node_i) -1.)))))
-						local_efficiency += (hiwi/ (G.degree(node_i) * (G.degree(node_i) -1.)) )
+				g.write('%d\t%f\t%f\n' % ((node_i+1), threshold, (hiwi/ (G.degree(node_i)*(G.degree(node_i) -1.)))))
+				local_efficiency += (hiwi/ (G.degree(node_i) * (G.degree(node_i) -1.)) )
 			else :
 				g.write('%d\t%f\t%f\n' % ((node_i+1), threshold, hiwi))
 		g.write("\n")
@@ -302,6 +320,53 @@ def get_my_local_efficiency(filename) :
 		f.write("%f\t%f\n" % (threshold, local_efficiency))
 	f.close()
 	g.close()
+
+def get_my_small_worldness(filename) :
+	threshold = 0
+	f = open(filename[:-4]+'_small_worldness.dat','w')
+	f.write('thresh\t\taver_clus\t\tave_ER_clus\t\tcoup_coeff\t\tchar_path\t\ttransi\t\tER_transi\t\tS_WS\t\tS_delta\n')
+	print f
+	for i in range(0,101):
+		threshold = float(i)/100
+		G = get_my_threshold_matrix(filename, threshold)
+		ER_graph = nx.erdos_renyi_graph(nx.number_of_nodes(G), nx.density(G)) # random graph
+		cluster = nx.average_clustering(G)
+		ER_cluster = nx.average_clustering(ER_graph)
+		transi = nx.transitivity(G)
+		ER_transi = nx.transitivity(ER_graph)
+		f.write('%f\t%f\t%f'% (threshold,cluster,ER_cluster))
+		components = nx.connected_component_subgraphs(G)
+		ER_components = nx.connected_component_subgraphs(ER_graph)
+		values = []
+		ER_values = []
+		for i in range(len(components)) :	
+			if nx.number_of_nodes(components[i]) > 1:
+				values.append(nx.average_shortest_path_length(components[i]))
+		for i in range(len(ER_components)) :	
+			if nx.number_of_nodes(ER_components[i]) > 1:
+				ER_values.append(nx.average_shortest_path_length(ER_components[i]))
+		if len(values) == 0 :
+			f.write("\t0.")
+		else : 
+			f.write("\t%f" % (sum(values)/len(values)))
+		if len(ER_values) == 0:
+			f.write("\t0.")
+		else:
+			f.write("\t%f" % (sum(ER_values)/len(ER_values)))
+		f.write("\t%f\t%f" % (transi, ER_transi))
+		if (ER_cluster*sum(values)*len(values)*sum(ER_values)*len(ER_values)) >0 :
+			S_WS = (cluster/ER_cluster) / ((sum(values)/len(values)) / (sum(ER_values)/len(ER_values)))
+		else:
+			S_WS = 0.
+		if (ER_transi*sum(values)*len(values)*sum(ER_values)*len(ER_values)) >0 :
+			S_Delta = (transi/ER_transi) / ((sum(values)/len(values)) / (sum(ER_values)/len(ER_values)))
+		else:
+			S_Delta = 0.
+		f.write("\t%f\t%f" % (S_WS, S_Delta))  
+		f.write("\n")
+	f.close()
+    
+			
 
 
 if __name__ == '__main__':
@@ -316,7 +381,9 @@ if __name__ == '__main__':
 
 network = get_my_threshold_matrix(infilename_data , value)
 
-nx.draw(network)
+print_adjacency_matrix(network)
+
+export_adjacency_matrix(network, infilename_data, value)
 
 get_my_characteristics(network,infilename_data)
 
@@ -341,6 +408,11 @@ get_my_shortest_pathlength(infilename_data)
 get_my_harmonic_pathlength(infilename_data)
 
 get_my_global_efficiency(infilename_data)
+
+get_my_local_efficiency(infilename_data)
+
+get_my_small_worldness(infilename_data)
+
 
 
 

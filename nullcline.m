@@ -63,27 +63,27 @@ yt(1)=-.75;
 
 % extended FitzHugh-Nagumo Model
 
-a1=1.3;
+a1=0.90;
 eps1=0.005;
-gamma=0.05;
+gamma=0.9;
 
 xT=zeros(1,N);
-noise=wgn(1,N,1);
+noise=wgn(1,N,1); %gaussian white noise
 yT=xT;
 xT(1)=-0.75;
 yT(1)=-1;
-D=0.016;
+D=0.05;  %noise strength
 
 x_limit=2.5;
 y_limit=1;
 xE=-x_limit:0.01:x_limit;
 yE=(xE+a1+D*noise(1,1:length(xE)))./gamma;
-yE2=(xE-xE.^3/3+D*noise(1,1:length(xE))*eps);
+yE2=(xE-xE.^3/3+D*noise(1,1:length(xE)));
 
 
 
 for i=1:N-1
-   xT(i+1)=xT(i)+(xT(i)-xT(i)^3/3-yT(i))*dt/eps1+D*noise(1,i+1)*dt; 
+   xT(i+1)=xT(i)+(xT(i)-xT(i)^3/3-yT(i))*dt/eps1+D*noise(1,i+1)*dt/eps1; 
    yT(i+1)=yT(i)+(xT(i)-gamma*yT(i)+a1)*dt+D*noise(1,i+1)*dt;
 end
 
@@ -99,10 +99,14 @@ plot(t,yT,'k','LineWidth',1.5)
 xlabel('time','FontSize',25)
 ylabel('y','FontSize',25)
 
+ny=0;
 % intersection of nullclines
 b0=-2;
-b = fsolve(@(b)((-a1-ny)/gamma+eps*nx+ (1-1/gamma)*b - b^3/3 ), b0);
-c = (b+a1+ny)/gamma;
+% b = fsolve(@(b) b*(gamma-1) - (gamma/3)*b^3 + ny*(gamma-1)-a, b0)
+
+b = fsolve(@(b) b^3 + (3/gamma -3)*b + 3*a1/gamma, b0)
+c = (b+a1+ny)/gamma
+d = b-b^3/3 + ny
 
 lambda1(1)= ((1-b^2-gamma*eps1) + sqrt((1-b^2-gamma*eps1)^2 - 4*(gamma*eps1*b^2 + eps1 - gamma*eps1)  ) )/2;
 lambda1(2)= ((1-b^2-gamma*eps1) - sqrt((1-b^2-gamma*eps1)^2 - 4*(gamma*eps1*b^2 + eps1 - gamma*eps1)  )) /2;

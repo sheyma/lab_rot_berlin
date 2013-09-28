@@ -11,7 +11,121 @@
 \author{\c{S}eyma Bayrak, Advisor: Philipp H\"{o}vel}
 \maketitle
 
-\section{The Effects of Coupling Strength and Threshold Values on  Correlation Matrices of the Neural Activity}
+\section{Extended FHN Model with Noise Factor}
+\begin{equation}
+ \varepsilon\dot{x} = (x- \frac{x^3}{3}-y)+n_x \;\;\;\;\;\;\;\;\;\;\; \dot{y}=x+a -\gamma y +n_y  \;\;\;\;\;   
+\end{equation}
+where $n_x$ and $n_y$ are additional Gaussian White Noise factors. 
+
+\begin{itemize}
+ \item Does noise factors affect the fixed point ? 
+ 
+$x$-nullcline : $0=(x- \frac{x^3}{3}-y)+n_x$ \newline
+$y$-nullcline : $0=x+a -\gamma y +n_y$ \newline
+Let us say that Gaussian white noise factors $n_x$ and $n_y$ have two components: one is the noise distribution $f(r)$ and the other one is the strength $D$, such that $n_x=D_x.f(r_x)$ and $n_y=D_y.f(r_y)$. For simplicity, I would like choose both of the strengths and noise distributions equally, $n_x=n_y=n=D.f(r)$. Let us solve the nullclines to eliminate the fixed point on MATLAB: 
+
+$(x- \frac{x^3}{3}-y)+n=0 \Longrightarrow y=x-\frac{x^3}{3}+n$ \newline
+$x+a -\gamma y +n \Longrightarrow y=\frac{x+a+n}{\gamma} $ \newline
+Analytical solution for fixed point $(x_f,y_f)$: \newline
+$x_f = fsolve(@(x)\;\; x(\gamma -1) -\frac{x^3}{3}\gamma+n(\gamma-1)-a)$\newline
+$y_f = \frac{x_f+a+n}{\gamma}$
+
+\item Does noise factors affect the stability ?
+For the stability analysis, the egienvalues of the Jacobian matrix must be analyzed. The Jacobian Matrix of the extended FHN model is given below: 
+
+\[
+\textbf{J}=
+\left( {\begin{array}{cc }
+(1-x_f)^2  &  -1  \\
+\varepsilon &  -\varepsilon\gamma  \\
+
+\end{array} } \right)
+\]
+
+The Jacobian matrix does not seem different than the one eliminated for the extended FHN model without noise factors. Therefore, it might be reasonable to state that the noise factor does not decide the stability or instability of the system. 
+\end{itemize}
+
+\subsection{Gaussian White Noise Vector on MATLAB}
+A random vector having real numbers, probability distribution with zero mean and finite variance, elements of the vector are indipendent. 
+\begin{lstlisting}
+ wgn Generate white Gaussian noise.
+    Y = wgn(M,N,P) generates an M-by-N matrix of white 
+    Gaussian noise. P specifies the power of the output
+    noise in dBW. The unit of measure for the output of
+    the wgn function is Volts. For power calculations, 
+    it is assumed that there is a load of 1 Ohm. 
+\end{lstlisting}
+
+\subsection{Related Figures to Observe the Noise Effect}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=40mm]{noisy_ext_nullclines_a_130_epsil_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 1,  $D=0.016$, $a=1.30$, $\varepsilon=0.005$,          $\gamma=0.05$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=75mm]{noisy_ext_fixpo_a_130_epsil_0005_gamma_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 2,  $D=0.016$, $a=1.30$, $\varepsilon=0.005$,          $\gamma=0.05$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=40mm]{noisy_005_ext_nullclines_a_130_epsil_0005.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 3,  $D=0.05$, $a=1.30$, $\varepsilon=0.005$,          $\gamma=0.05$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=75mm]{noisy_005_ext_fixpo_a_130_epsil_0005_gamma_05.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 4,  $D=0.05$, $a=1.30$, $\varepsilon=0.005$,          $\gamma=0.05$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=40mm]{noisy_005_ext_nullclines_a_090_epsil_0005_gam_09.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 5,  $D=0.05$, $a=0.90$, $\varepsilon=0.005$,          $\gamma=0.9$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{center}
+\includegraphics[width=\textwidth, height=75mm]{noisy_005_ext_fixpo_a_090_epsil_0005_gamma_09.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 6,  $D=0.05$, $a=0.90$, $\varepsilon=0.005$,          $\gamma=0.9$, $(x_0,y_0)=(-0.75,-1)$  
+\end{footnotesize}
+\end{center}
+
+\begin{itemize}
+ \item The noise term does not change a stable sytem into an unstable one, or the other way around.
+
+\item Discuss the effect of noise factor on fix point analysis and code it truely on MATLAB ! 
+\end{itemize}
+
+\section{Simulated Functional Connectivity Matrices}
+
+This section aims to see the effect of the coupling strength, threshold value, and velocities on simulated BOLD activity. Since the program execution takes a long time for the original emprical functional connectivity matrix $n_{ij}$ (A.txt), I preferred to generate my own smaller matrix by subtracting a 16x16 matrix from the original $n_{ij}$ matrix, and then extract the simulated BOLD activity by using the new smaller matrix. (I also extracted 16x16 distance matrix)
+
+\begin{center}
+\includegraphics[width=\textwidth ]{AversusA_16x16.eps}
+% tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
+\begin{footnotesize}
+ Figure 7,  Left: the functional connectivity matrix for the emprical data having $N=64$ nodes, right: that of $N=16$ nodes
+\end{footnotesize}
+\end{center}
+
+
+\subsection{The Effects of Coupling Strength and Threshold Values on  Correlation Matrices of the BOLD Activity}
 
 \begin{center}
 
@@ -39,8 +153,13 @@
   \end{tabular}
 \end{center}
 
+\begin{center}
+\begin{footnotesize}
+ Figure 8, $t=1000ms$, $D=0.016$, $\gamma=1.0$, $\alpha=0.85$, $b=0.2$, $\tau=1.25$, $v=7m/s$
+\end{footnotesize}
+\end{center}
 
-\section{Different Time Delays ~ Different Velocities}
+\subsection{Different Time Delays and Different Velocities on BOLD Activity}
 
 \begin{center}
 
@@ -68,6 +187,11 @@
   \end{tabular}
 \end{center}
 
+\begin{center}
+\begin{footnotesize}
+ Figure 9, $t=1000ms$, $D=0.016$, $\gamma=1.0$, $\alpha=0.85$, $b=0.2$, $\tau=1.25$, $c=0.2$
+\end{footnotesize}
+\end{center}
 
 
 
