@@ -112,6 +112,74 @@ A random vector having real numbers, probability distribution with zero mean and
 \item Discuss the effect of noise factor on fix point analysis and code it truely on MATLAB ! 
 \end{itemize}
 
+\section{Our Model...}
+\begin{equation}
+ \dot{x}=\tau(y+\gamma x -\frac{x^3}{3}) \;\;\;\;\;\;\;\;\;\;\;\; \dot{y}=-\frac{1}{\tau}(x-\alpha +b.y)
+\end{equation}
+y-nullcline: $y=\frac{x^3}{3}-\gamma x$ \newline
+x-nullcline: $y=\frac{\alpha-x}{b}$ \newline
+Fixed point analytical solutions: \newline
+$x_f=fsolve((x)@ \;\;\; (\frac{x^3}{3}+x(\frac{1}{b}-\gamma)-\frac{\gamma}{b}))$ and $y_f=\frac{\alpha-x_f}{b}$ \newline
+Jacobian Matrix: 
+\[
+\textbf{J}=
+\left( {\begin{array}{cc }
+(\gamma-x_f^2).\tau  &  \tau  \\
+-\frac{1}{\tau} &  -\frac{b}{\tau}  \\
+
+\end{array} } \right)
+\]
+The eigenvalues of the Jacobian Matrix:
+\begin{equation}
+ \lambda_{1,2}=\dfrac{-(\frac{b}{\tau}+(\gamma-x_f^2).\tau)\pm\sqrt{(-(\frac{b}{\tau}+(\gamma-x_f^2).\tau))^2-4.(1-b(x_f^2-\gamma))}}{2}
+\end{equation}
+
+Let us first plot the time evolution of $x$ and $y$ as stated in equation (3) and also the nullclines as trajectory, and then see the differences between our model and original extended FHN model.
+
+\subsection{Related Figures}
+
+\begin{center}
+
+  \begin{tabular}{@{} cc@{} }
+    \includegraphics[width=70mm, height =30mm]{vuk_nullcl_alpha_05_tau_125_gamma_09_b_02.eps} &
+    \includegraphics[width=50mm]{vuk_fixpo_alpha_05_tau_125_gamma_09_b_02.eps} \\
+  \end{tabular}
+
+
+\begin{footnotesize}
+ Figure 7, Left: time evolution of $x$ and $y$ separately, right: state space of $x$-$y$ with trajectory. Parameters according to the equation (3): $\alpha=0.5$, $\tau=1.25$, $\gamma=0.9$, $b=0.2$, $x_0=-1$, $y_0=-0.65$\end{footnotesize}
+\end{center}
+
+\begin{itemize}
+ \item How to integrate the parameters in order to get a similar graph as in original model ? 
+Obviously, the incline of blue line which is the parameter $b$ actually, should be reversed. The red curve, the nullcline $y=-\frac{x^3}{3}+\gamma x$ should be mirrored on y axis.
+
+$b\longrightarrow -b$ \newline $y\_nullcline \longrightarrow -y\_nullcline$ \newline
+The new Jacobian Matrix : 
+\[
+\textbf{J}=
+\left( {\begin{array}{cc }
+(\gamma-x_f^2).\tau  &  -\tau  \\
+-\frac{1}{\tau} &  -\frac{b}{\tau}  \\
+
+\end{array} } \right)
+\]
+\end{itemize}
+
+\begin{center}
+
+  \begin{tabular}{@{} cc@{} }
+    \includegraphics[width=70mm, height =30mm]{vuk_intg_nullcl_alpha_05_tau_125_gamma_09_b_02.eps} &
+    \includegraphics[width=50mm]{vuk_intg_fixpo_alpha_05_tau_125_gamma_09_b_02.eps} \\
+  \end{tabular}
+
+
+\begin{footnotesize}
+ Figure 8, Left: time evolution of $x$ and $y$ separately, right: state space of $x$-$y$ with trajectory. Parameters according to the equation (3): $\alpha=0.5$, $\tau=1.25$, $\gamma=0.9$, $b=-0.2$, $x_0=-1$, $y_0=-0.65$\end{footnotesize}
+\end{center}
+
+\newpage
+
 \section{Simulated Functional Connectivity Matrices}
 
 This section aims to see the effect of the coupling strength, threshold value, and velocities on simulated BOLD activity. Since the program execution takes a long time for the original emprical functional connectivity matrix $n_{ij}$ (A.txt), I preferred to generate my own smaller matrix by subtracting a 16x16 matrix from the original $n_{ij}$ matrix, and then extract the simulated BOLD activity by using the new smaller matrix. (I also extracted 16x16 distance matrix)
@@ -120,7 +188,7 @@ This section aims to see the effect of the coupling strength, threshold value, a
 \includegraphics[width=\textwidth ]{AversusA_16x16.eps}
 % tau4_M1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb= -304   -42   918   834
 \begin{footnotesize}
- Figure 7,  Left: the functional connectivity matrix for the emprical data having $N=64$ nodes, right: that of $N=16$ nodes
+ Figure 9,  Left: the functional connectivity matrix for the emprical data having $N=64$ nodes, right: that of $N=16$ nodes
 \end{footnotesize}
 \end{center}
 
@@ -155,7 +223,7 @@ This section aims to see the effect of the coupling strength, threshold value, a
 
 \begin{center}
 \begin{footnotesize}
- Figure 8, $t=1000ms$, $D=0.016$, $\gamma=1.0$, $\alpha=0.85$, $b=0.2$, $\tau=1.25$, $v=7m/s$
+ Figure 10, $t=1000ms$, $D=0.016$, $\gamma=1.0$, $\alpha=0.85$, $b=0.2$, $\tau=1.25$, $v=7m/s$
 \end{footnotesize}
 \end{center}
 
@@ -189,7 +257,7 @@ This section aims to see the effect of the coupling strength, threshold value, a
 
 \begin{center}
 \begin{footnotesize}
- Figure 9, $t=1000ms$, $D=0.016$, $\gamma=1.0$, $\alpha=0.85$, $b=0.2$, $\tau=1.25$, $c=0.2$
+ Figure 11, $t=1000ms$, $D=0.016$, $\gamma=1.0$, $\alpha=0.85$, $b=0.2$, $\tau=1.25$, $c=0.2$
 \end{footnotesize}
 \end{center}
 

@@ -415,7 +415,5 @@ if __name__ == '__main__':
   #get_harmonic_pathlength(infilename_data)  
   #get_global_efficiency(infilename_data)
   ####automated choice of the the threshold value
- 
-  
   #get_local_efficiency(infilename_data)
   #get_small_worldness(infilename_data)
