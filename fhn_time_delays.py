@@ -55,7 +55,7 @@ params = { # Fitzhugh-Nagumo parameters...
 
 	'D' : float(sys.argv[4]),   # noise # 0.05
 
-	'v' : 150.0, # velocity in 0.1 m/s ???
+	'v' : float(sys.argv[5]), # velocity in 0.1 m/s ???
 	#'tau' : 1.0, 
 
 }
@@ -165,7 +165,7 @@ neuronetz.ddeN.hist_from_arrays(dic)
 
 """ Start simulation with t = [0,tmax] """
 
-tmax = 1000
+tmax = int(sys.argv[6])
 neuronetz.run(tmax)
 
 
