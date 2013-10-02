@@ -35,28 +35,28 @@ function b = calcBOLD(simfile)
   % specify plotting interval:
   minval = 325;
   range = 500;
-  h = figure;
-  plot(timeseries(minval:minval+range,:));
-  xlim([0 range])
-  xlabel('t in [ms]')
-  ylabel('u(t)')
-  axis([0 range 0.93 1.04])
+%   h = figure;
+%   plot(timeseries(minval:minval+range,:));
+%   xlim([0 range])
+%   xlabel('t in [ms]')
+%   ylabel('u(t)')
+%   axis([0 range 0.93 1.04])
   
 %  plot only first u_i series as a function of time
-  figure(2)
-  plot((dt:dt:dt*nt),timeseries(:,1))
-  xlabel('t in [ms]','FontSize',25)
-  ylabel('u_1(t)','FontSize',25)
-  set(gca,'FontSize',25);
- 
-  textobj = findobj('type', 'text');
-  set(textobj, 'fontunits', 'points');
-  set(textobj, 'fontsize', 60);
-  
-  filo = ['sample_',simfile(1:end-4)]; 
-  print(h,'-depsc2',sprintf('%s.eps',filo));
-  system(sprintf('ps2pdf -dEPSCrop %s.eps %s.pdf',filo,filo));  
-  close(h);
+%   figure(2)
+%   plot((dt:dt:dt*nt),timeseries(:,1))
+%   xlabel('t in [ms]','FontSize',25)
+%   ylabel('u_1(t)','FontSize',25)
+%   set(gca,'FontSize',25);
+%  
+%   textobj = findobj('type', 'text');
+%   set(textobj, 'fontunits', 'points');
+%   set(textobj, 'fontsize', 60);
+%   
+%   filo = ['sample_',simfile(1:end-4)]; 
+%   print(h,'-depsc2',sprintf('%s.eps',filo));
+%   system(sprintf('ps2pdf -dEPSCrop %s.eps %s.pdf',filo,filo));  
+%   close(h);
   
   %%% apply Balloon Windkessel model in BOLD.m :  
 
@@ -159,10 +159,10 @@ function b = calcBOLD(simfile)
   save([simfile(1:end-4),'_simfc.mat'],'simfc')
   
    % plot simulated functional connectivity
-  h = figure;
+ % h = figure;
   imagesc(simfc); % automatic color scaling from min to max value 
   %imagesc(simfc,[-1.0 1.0]); chose this for color scaling from -1 to 1
-  colorbar;
+  
   %title(['v=',simfile(29:30),' m/s'],'FontSize',40)
   set(gca, 'fontsize',30)
   %ylabel('r=0.78','FontSize',40)

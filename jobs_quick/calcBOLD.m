@@ -27,37 +27,37 @@ function b = calcBOLD(simfile)
     timeseries(:,roi) = simoutput(:,2*roi);
   end
 
-  save([simfile(1:end-4),'_timeseries.mat'],'timeseries','tvec')
-  %load([simfile(1:end-4),'_timeseries.mat'])
+% save([simfile(1:end-4),'_timeseries.mat'],'timeseries','tvec')
+% load([simfile(1:end-4),'_timeseries.mat'])
   
   %% plot sample time series     
-  close all;
+
   % specify plotting interval:
-  minval = 325;
-  range = 500;
-  h = figure;
-  plot(timeseries(minval:minval+range,:));
-  xlim([0 range])
-  xlabel('t in [ms]')
-  ylabel('u(t)')
-  axis([0 range 0.93 1.04])
+%   minval = 325;
+%   range = 500;
+%   h = figure;
+%   plot(timeseries(minval:minval+range,:));
+%   xlim([0 range])
+%   xlabel('t in [ms]')
+%   ylabel('u(t)')
+%   axis([0 range 0.93 1.04])
   
-%  plot only first u_i series as a function of time
-  figure(2)
-  plot((dt:dt:dt*nt),timeseries(:,1))
-  xlabel('t in [ms]','FontSize',25)
-  ylabel('u_1(t)','FontSize',25)
-  set(gca,'FontSize',25);
- 
-  textobj = findobj('type', 'text');
-  set(textobj, 'fontunits', 'points');
-  set(textobj, 'fontsize', 60);
+    %   plot only first u_i series as a function of time
+    %   figure(2)
+    %   plot((dt:dt:dt*nt),timeseries(:,1))
+    %   xlabel('t in [ms]','FontSize',25)
+    %   ylabel('u_1(t)','FontSize',25)
+    %   set(gca,'FontSize',25);
   
-  filo = ['sample_',simfile(1:end-4)]; 
-  print(h,'-depsc2',sprintf('%s.eps',filo));
-  system(sprintf('ps2pdf -dEPSCrop %s.eps %s.pdf',filo,filo));  
-  close(h);
-  
+%   textobj = findobj('type', 'text');
+%   set(textobj, 'fontunits', 'points');
+%   set(textobj, 'fontsize', 60);
+%   
+%   filo = ['sample_',simfile(1:end-4)]; 
+%   print(h,'-depsc2',sprintf('%s.eps',filo));
+%   system(sprintf('ps2pdf -dEPSCrop %s.eps %s.pdf',filo,filo));  
+%   close(h);
+%   
   %%% apply Balloon Windkessel model in BOLD.m :  
 
   % initialize array:
@@ -65,7 +65,7 @@ function b = calcBOLD(simfile)
 	
 	% important: specify here to which time interval the simulated 
 	% time series corresponds:
-  %T = 700.0; % in [s] -Vesna
+% T = 700.0; % in [s] -Vesna
   T = (nt*dt)/1000;  % (ms to s : tmax/1000) - Seyma
   
   for roi = 1:N 
@@ -96,20 +96,20 @@ function b = calcBOLD(simfile)
       sBOLD(:,i) = boldsignal{i};
   end
   
-%   figure(3);
-%   
-%   plot((dt:dt:dt*n_t),sBOLD(:,1))
-%   xlabel('t in [ms]','FontSize',25)
-%   ylabel('simulated - u_1(t)','FontSize',25)
-%   set(gca,'FontSize',25 )
-% 
+        %   figure(3);
+        %   
+        %   plot((dt:dt:dt*n_t),sBOLD(:,1))
+        %   xlabel('t in [ms]','FontSize',25)
+        %   ylabel('simulated - u_1(t)','FontSize',25)
+        %   set(gca,'FontSize',25 )
+        % 
 
-%   figure(4);
-%   
-%   plot((dt:dt:dt*n_t),sBOLD(:,1:N))
-%   xlabel('t in [ms]','FontSize',25)
-%   ylabel('simulated - u_1(t)','FontSize',25)
-%   set(gca,'FontSize',25 )
+        %   figure(4);
+        %   
+        %   plot((dt:dt:dt*n_t),sBOLD(:,1:N))
+        %   xlabel('t in [ms]','FontSize',25)
+        %   ylabel('simulated - u_1(t)','FontSize',25)
+        %   set(gca,'FontSize',25 )
 
 
 
@@ -130,12 +130,12 @@ function b = calcBOLD(simfile)
   
 
   
-%   k=figure(5);
-%   plot((dt:dt:dt*n_t),BOLD_filt(:,1:N))
-%   xlabel('t in [ms]','FontSize',25)
-%   ylabel('simulated - u_i(t)','FontSize',25)
-%   set(gca,'FontSize',25 )
-%   set(get(k,'Position'), [5 567 1272 380])
+        %   k=figure(5);
+        %   plot((dt:dt:dt*n_t),BOLD_filt(:,1:N))
+        %   xlabel('t in [ms]','FontSize',25)
+        %   ylabel('simulated - u_i(t)','FontSize',25)
+        %   set(gca,'FontSize',25 )
+        %   set(get(k,'Position'), [5 567 1272 380])
 
   %% Downsampling: select one point every 'ds' ms to match fmri resolution:
 
@@ -153,26 +153,26 @@ function b = calcBOLD(simfile)
 
   %%
   
-  %load([simfile(1:end-4),'_bds.mat'])
+% load([simfile(1:end-4),'_bds.mat'])
 
   simfc = corr(bds);
   save([simfile(1:end-4),'_simfc.mat'],'simfc')
   
-   % plot simulated functional connectivity
-  h = figure;
+    % plot simulated functional connectivity
+% h = figure;
   imagesc(simfc); % automatic color scaling from min to max value 
-  %imagesc(simfc,[-1.0 1.0]); chose this for color scaling from -1 to 1
-  colorbar;
-  %title(['v=',simfile(29:30),' m/s'],'FontSize',40)
-  set(gca, 'fontsize',30)
-  %ylabel('r=0.78','FontSize',40)
+          %imagesc(simfc,[-1.0 1.0]); chose this for color scaling from -1 to 1
+          %colorbar;
+          %title(['v=',simfile(29:30),' m/s'],'FontSize',40)
+          % set(gca, 'fontsize',30)
+          %ylabel('r=0.78','FontSize',40)
 
-  textobj = findobj('type', 'text');
-  set(textobj, 'fontunits', 'points');
-  set(textobj, 'fontsize', 60);
-
-  filo = ['simfc_',simfile(1:end-4)]; 
-  print(h,'-depsc2',sprintf('%s.eps',filo));
-  system(sprintf('ps2pdf -dEPSCrop %s.eps %s.pdf',filo,filo));
+%   textobj = findobj('type', 'text');
+%   set(textobj, 'fontunits', 'points');
+%   set(textobj, 'fontsize', 60);
+% 
+%   filo = ['simfc_',simfile(1:end-4)]; 
+%   print(h,'-depsc2',sprintf('%s.eps',filo));
+%   system(sprintf('ps2pdf -dEPSCrop %s.eps %s.pdf',filo,filo));
   
 end

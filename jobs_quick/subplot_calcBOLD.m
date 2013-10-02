@@ -7,13 +7,19 @@ function g = subplot_calcBOLD(simfile)
     p = 1;
     
     for j =1:m
-        simfile(17)=num2str(sigma(j))
-        
+        simfile(17)=num2str(sigma(j));
         for i = 1:n
-            thr = thresholds(i);
-            simfile(6:7) = num2str(thr);
-            position = strcat(num2str(m),',',num2str(n),',',num2str(p))
-            my_calcBOLD(simfile,position)
+            simfile(6:7) = num2str(thresholds(i));
+            subplot(m,n,p)
+            set(gca,'FontSize',25)
+            calcBOLD(simfile)
+            if j==1
+                title(['r=0.',num2str(thresholds(i))],'FontSize',30)
+            end
+            
+            if i==1
+                 ylabel(['c=0.',num2str(sigma(j))],'FontSize',30)
+            end
             p=p+1;
         end
     end
